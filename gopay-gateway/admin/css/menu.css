@@ -1,0 +1,129 @@
+/*
+	Theme Name: Admin menu
+	Version: 1.0.0
+*/
+
+.gopay-gateway-menu {
+	display: grid;
+	position: center;
+	text-align: center;
+	vertical-align: middle;
+	border-bottom: 1px;
+	padding: 12px;
+}
+
+.gopay-gateway-menu h1 {
+	font-size: xx-large;
+	font-weight: bold;
+}
+
+.gopay-gateway-menu table {
+	font-weight: bold;
+	margin: fill;
+}
+
+.gopay-gateway-menu th {
+	font-size: 20px;
+	border-radius: 5px;
+	padding: 15px;
+	background-color: rgba(211, 221, 237, 1)
+}
+
+.gopay-gateway-menu td {
+	font-size: 14px;
+	padding: 5px;
+	border-radius: 5px;
+}
+
+.gopay-gateway-menu tr:nth-child(even) {
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.gopay-gateway-menu tr:nth-child(odd) {
+	background-color: rgba(211, 221, 237, 0.5);
+}
+
+.gopay-gateway-menu tr:hover {
+	background-color: rgba(240, 128, 128, 0.5);
+}
+
+.gopay-gateway-menu-pagination {
+	display: inline-flex;
+	border-radius: 6px;
+	padding: 15px;
+}
+
+.gopay-gateway-menu-pagination li {
+	padding: 8px;
+}
+
+.gopay-gateway-menu-pagination li a {
+	padding: 15px;
+	font-size: 14px;
+	text-decoration: none;
+}
+
+.gopay-gateway-menu-pagination li:nth-child(even) {
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.gopay-gateway-menu-pagination li:nth-child(odd) {
+	background-color: rgba(211, 221, 237, 0.5);
+}
+
+.gopay-gateway-menu-pagination li:hover {
+	background-color: rgba(240, 128, 128, 0.5);
+}
+
+.gopay-gateway-menu-enabled a {
+	pointer-events: auto;
+	cursor: auto;
+	opacity: 1;
+}
+
+.gopay-gateway-menu-disabled a {
+	pointer-events: none;
+	cursor: default;
+	opacity: 0.4;
+}
+
+.gopay-gateway-menu-active a {
+	color: rgba(240, 128, 128, 1);
+}
+
+.gopay-gateway-menu-inactive a {
+	color: black;
+}
+
+.gopay-gateway-menu-popup {
+	display: none;
+	width: auto;
+	height: auto;
+	font-size: 14px;
+	padding: 15px;
+	background-color: white;
+	border: 2px solid grey;
+	border-radius: 5px;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.gopay-gateway-menu-popup span {
+	color: black;
+	overflow: auto;
+}
+
+.gopay-gateway-menu-close {
+	cursor: pointer;
+	height: 16px;
+	width: 16px;
+	background-color: lightcoral;
+	border-radius: 5px;
+}
+
+.gopay-gateway-menu-close:hover {
+	transform: scale(1.05, 1.05);
+	box-shadow: 0 4px 8px 0 red;
+}

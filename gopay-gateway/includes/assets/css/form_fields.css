@@ -1,0 +1,8 @@
+/*
+	Theme Name: Form fields
+	Version: 1.0.0
+*/
+
+.select2-selection--multiple {
+	min-height: 100px !important;
+}

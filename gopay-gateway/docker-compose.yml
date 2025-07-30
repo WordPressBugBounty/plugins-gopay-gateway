@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: gopay-woocommerce-integration
+        volumes:
+            - ./admin:/usr/src/myapp/admin
+            - ./includes:/usr/src/myapp/includes
+            - ./languages:/usr/src/myapp/languages
+            - ./check-requirements.php:/usr/src/myapp/check-requirements.php
+            - ./composer.json:/usr/src/myapp/composer.json
+            - ./composer.lock:/usr/src/myapp/composer.lock
+            - ./index.php:/usr/src/myapp/index.php
+            - ./uninstall.php:/usr/src/myapp/uninstall.php
+            - ./gopay-gateway.php:/usr/src/myapp/gopay-gateway.php
+        tty: true

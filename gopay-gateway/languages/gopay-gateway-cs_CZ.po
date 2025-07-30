@@ -1,0 +1,547 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: GoPay gateway\n"
+"POT-Creation-Date: 2022-05-16 14:09+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: Czech\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: $this->__;__;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;"
+"_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;"
+"esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 3.0.1\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+
+msgid "GoPay info"
+msgstr "GoPay info"
+
+
+msgid "Info"
+msgstr "Info"
+
+
+msgid "GoPay log"
+msgstr "GoPay log"
+
+
+msgid "Log"
+msgstr "Log"
+
+
+msgid "Plugin Name"
+msgstr "Název pluginu"
+
+
+msgid "Version"
+msgstr "Verze"
+
+
+msgid "Description"
+msgstr "Popis"
+
+
+msgid "Author"
+msgstr "Autor"
+
+
+msgid "Settings"
+msgstr "Nastavení"
+
+
+msgid "Id"
+msgstr "Id"
+
+
+msgid "Order id"
+msgstr "ID objednávky"
+
+
+msgid "Transaction id"
+msgstr "ID transakce"
+
+
+msgid "Message"
+msgstr "Zpráva"
+
+
+msgid "Created at"
+msgstr "Vytvořeno v"
+
+
+msgid "Log level"
+msgstr "Úroveň protokolu"
+
+
+msgid "Go to"
+msgstr "Přejít na"
+
+
+msgid "GoPay gateway plugin requires WooCommerce to be active."
+msgstr ""
+"Zásuvný modul platební brány GoPay vyžaduje, aby byl aktivní WooCommerce."
+
+
+msgid " "
+msgstr " "
+
+
+msgid "Another bank"
+msgstr "Jiná banka"
+
+
+msgid "Czech koruna"
+msgstr "Česká koruna"
+
+
+msgid "Euro"
+msgstr "Euro"
+
+
+msgid "Polish złoty"
+msgstr "Polský złoty"
+
+
+msgid "United States dollar"
+msgstr "Americký dolar"
+
+
+msgid "Pound sterling"
+msgstr "Libra šterlinků"
+
+
+msgid "Hungarian forint"
+msgstr "Maďarský forint"
+
+
+msgid "Romanian lei"
+msgstr "Rumunský lei"
+
+
+msgid "Bulgarian lev"
+msgstr "Bulharský lev"
+
+
+msgid "Croatian kuna"
+msgstr "Chorvatská kuna"
+
+
+msgid "Czech"
+msgstr "Čeština"
+
+
+msgid "Slovak"
+msgstr "Slovenština"
+
+
+msgid "English"
+msgstr "Angličtina"
+
+
+msgid "German"
+msgstr "Němčina"
+
+
+msgid "Russian"
+msgstr "Ruština"
+
+
+msgid "Polish"
+msgstr "Polština"
+
+
+msgid "Hungarian"
+msgstr "Maďarština"
+
+
+msgid "Romanian"
+msgstr "Rumunština"
+
+
+msgid "Bulgarian"
+msgstr "Bulharština"
+
+
+msgid "Croatian"
+msgstr "Chorvatština"
+
+
+msgid "Italian"
+msgstr "Italština"
+
+
+msgid "French"
+msgstr "Francouzština"
+
+
+msgid "Spanish"
+msgstr "Španělština"
+
+
+msgid "Ukrainian"
+msgstr "Ukrajinština"
+
+
+msgid ""
+"Products and subscriptions can not be purchased at the same time and only "
+"one subscription per checkout is possible."
+msgstr ""
+"Produkty a předplatné nelze zakoupit současně a na jednu pokladnu je možné "
+"zakoupit pouze jedno předplatné."
+
+
+msgid "Only one recurring payment/subscription per checkout is possible"
+msgstr ""
+"Na jednu pokladnu je možné provést pouze jednu opakovanou platbu/předplatné"
+
+
+msgid ""
+"GoPay gateway plugin requires WooCommerce Subscriptions Mixed "
+"Checkout option to be disabled."
+msgstr ""
+"Zásuvný modul platební brány GoPay vyžaduje, aby byla vypnuta možnost WooCommerce Subscriptions Mixed Checkout."
+
+
+msgid "GoPay payment gateway"
+msgstr "Platební brána GoPay"
+
+
+msgid "Take payments via GoPay payment gateway."
+msgstr "Přijímejte platby prostřednictvím platební brány GoPay."
+
+
+
+
+msgid "Enable only the selected payment methods on the GoPay payment gateway ."
+msgstr "Povolte pouze vybrané platební metody na platební bráně GoPay."
+
+
+
+msgid "Enable/Disable"
+msgstr "Povolit/zakázat"
+
+
+msgid ""
+"Inform goid, client id and secret to enable GoPay payment gateway and load "
+"the other options"
+msgstr ""
+"Informujte goid, ID klienta a secret pro povolení platební brány GoPay a "
+"načtení dalších možností"
+
+
+
+msgid "GoId"
+msgstr "GoId"
+
+
+
+msgid "Client Id"
+msgstr "Client Id"
+
+
+
+msgid "Client secret"
+msgstr "Client secret"
+
+
+msgid "Enable GoPay payment gateway"
+msgstr "Povolení platební brány GoPay"
+
+
+msgid "Title"
+msgstr "Název"
+
+
+msgid "Name of the payment method that is displayed at the checkout"
+msgstr "Název způsobu platby, který se zobrazí u pokladny"
+
+
+msgid "GoPay"
+msgstr "GoPay"
+
+
+msgid "Description of the payment method that is displayed at the checkout"
+msgstr "Popis způsobu platby, který se zobrazí u pokladny"
+
+
+msgid "Payment via GoPay gateway"
+msgstr "Platba přes bránu GoPay"
+
+
+msgid "Test mode"
+msgstr "Testovací režim"
+
+
+msgid "Enable GoPay payment gateway test mode"
+msgstr "Povolení testovacího režimu platební brány GoPay"
+
+
+msgid "Default language of the GoPay interface"
+msgstr "Výchozí jazyk rozhraní GoPay"
+
+
+msgid "Default Language"
+msgstr "Výchozí jazyk"
+
+
+msgid ""
+"Default language is used when a customer of an e-commerce site is from a "
+"country whose language is not supported."
+msgstr "Výchozí jazyk se používá, pokud zákazník webu elektronického obchodu pochází ze země, jejíž jazyk není podporován."
+
+
+msgid "Select Default Language..."
+msgstr "Výběr výchozího jazyka..."
+
+
+msgid "Enable shipping methods"
+msgstr "Povolení způsobů přepravy"
+
+
+msgid "Enable Shipping Methods"
+msgstr "Povolení způsobů přepravy"
+
+
+
+
+msgid ""
+"Enable the GoPay payment gateway only for the selected WooCommerce shipping "
+"methods."
+msgstr "Povolte platební bránu GoPay pouze pro vybrané metody přepravy WooCommerce."
+
+
+
+
+msgid "Select Shipping Methods..."
+msgstr "Vyberte způsoby přepravy..."
+
+
+msgid "Enable countries"
+msgstr "Povolit země"
+
+
+msgid "Enable Countries"
+msgstr "Povolit země"
+
+
+
+
+msgid "Enable the GoPay payment gateway only for the selected countries."
+msgstr "Povolte platební bránu GoPay pouze pro vybrané země."
+
+
+msgid "Select Available Countries..."
+msgstr "Vyberte dostupné země..."
+
+
+msgid "Bank Selection"
+msgstr "Výběr banky"
+
+msgid "Enable simplified bank selection"
+msgstr "Povolení zjednodušeného výběru banky"
+
+
+msgid "Payment method selection"
+msgstr "Výběr způsobu platby"
+
+
+msgid "Enable simplified payment method selection"
+msgstr "Povolení zjednodušeného výběru způsobu platby"
+
+
+msgid ""
+"If enabled, customers cannot choose any specific payment method at the "
+"checkout but they have to select the payment method once the GoPay payment "
+"gateway is invoked."
+msgstr ""
+"Pokud je tato možnost povolena, zákazníci si při placení nemohou vybrat "
+"konkrétní platební metodu, ale musí ji zvolit po vyvolání platební brány "
+"GoPay."
+
+
+msgid "Enable GoPay payment methods"
+msgstr "Povolení platebních metod GoPay"
+
+
+msgid "Enable GoPay Payment Methods"
+msgstr "Povolení platebních metod GoPay"
+
+
+msgid "Enable banks"
+msgstr "Povolení bank"
+
+
+msgid "Enable Banks"
+msgstr "Povolení bank"
+
+
+msgid "Payment retry payment method"
+msgstr "Způsob opakování platby"
+
+
+
+
+msgid "Retry Payment Method"
+msgstr "Opakování způsobu platby"
+
+
+msgid "Enable payment retry using the same payment method"
+msgstr "Povolení opakování platby pomocí stejného způsobu platby"
+
+
+msgid ""
+"If enabled, payment retry of a failed payment will be done using the same "
+"payment method that was selected when customer was placing an order."
+msgstr ""
+"Pokud je tato možnost povolena, bude opakování neúspěšné platby provedeno "
+"stejným způsobem platby, který byl zvolen při zadávání objednávky."
+
+
+
+msgid "Currency is not supported on GoPay"
+msgstr "Měna není v GoPay podporována"
+
+
+
+msgid "Payment creation on GoPay not possible"
+msgstr "Vytvoření platby na GoPay není možné"
+
+
+msgid "Thank you. Your order has been received."
+msgstr "Děkujeme. Vaše objednávka byla přijata."
+
+
+msgid " Please pay for your subscription after the trial period."
+msgstr " Po uplynutí zkušební doby za předplatné zaplaťte."
+
+
+msgid ""
+" However, we are still waiting for the confirmation or payment rejection."
+msgstr " Stále však čekáme na potvrzení nebo zamítnutí platby."
+
+
+msgid "WooCommerce and GoPay payment gateway integration"
+msgstr "Integrace platební brány WooCommerce a GoPay"
+
+
+msgid "GoPay gateway"
+msgstr "GoPay gateway"
+
+
+msgid "Místní vyzvednutí"
+msgstr "Osobní odběr"
+
+
+
+
+msgid ""
+"Enter your unique GoID, which can be found in your GoPay account settings. "
+"%1$sMore information%2$s."
+msgstr "Zadejte své jedinečné GoID, které najdete v nastavení účtu GoPay. "
+"%1$sVíce informací%2$s."
+
+
+
+
+msgid ""
+"Enter your client ID, which can be found in your GoPay account settings. "
+"%1$sMore information%2$s."
+msgstr "Zadejte své ID klienta, které najdete v nastavení účtu GoPay. "
+"%1$sVíce informací%2$s."
+
+
+
+
+msgid ""
+"Enter your Client Secret Token, which can be found in your GoPay account "
+"settings. %1$sMore information%2$s."
+msgstr "Zadejte svůj tajný klientský token, který najdete v nastavení svého účtu GoPay. "
+"%1$sVíce informací%2$s."
+
+
+
+msgid "Insert Your GoID..."
+msgstr "Vložte GoID..."
+
+
+
+msgid "Insert Your GoPay Client ID..."
+msgstr "Vložte ID klienta GoPay..."
+
+
+
+msgid "Insert Your GoPay Client Secret Token..."
+msgstr "Vložte tajný token klienta GoPay..."
+
+
+msgid "Insert Payment Title..."
+msgstr "Vložte název platby..."
+
+
+
+
+msgid "Insert Description..."
+msgstr "Vložit Popis..."
+
+
+
+
+msgid "Select GoPay Payment Methods..."
+msgstr "Vyberte platební metody GoPay..."
+
+
+msgid "Payment card"
+msgstr "Platební karta"
+
+
+msgid "Bank account"
+msgstr "Bankovní účet"
+
+
+
+
+msgid "Enable only the selected banks on the GoPay payment gateway ."
+msgstr "V platební bráně GoPay povolte pouze vybrané banky."
+
+
+msgid "Select Available Banks..."
+msgstr "Vyberte dostupné banky..."
+
+
+msgid ""
+"Unfortunately your order cannot be processed as the payment was not "
+"completed. Please attempt the payment or your purchase again."
+msgstr "Vaše objednávka bohužel nemůže být zpracována, protože platba nebyla dokončena. Zkuste prosím provést platbu nebo nákup znovu."
+
+
+msgid "Wrong GoID and/or credentials. Please provide valid GoID, Client ID and Client Secret."
+msgstr "Špatné GoID a/nebo pověření. Uveďte platné GoID, ID klienta a Client Secret."
+
+
+msgid "GoID, Client ID and Client Secret are mandatory. Please provide valid GoID, Client ID and Client Secret."
+msgstr "GoID, Client ID a Client Secret jsou povinné. Uveďte platné GoID, ID klienta a Client Secret."
+
+
+
+
+
+
+
+msgid ""
+"If enabled, customers cannot choose any specific bank at the checkout, they "
+"are grouped into one “Bank account” option, but they have to select the bank "
+"once the GoPay payment gateway is invoked."
+msgstr "Pokud je tato možnost povolena, zákazníci si při placení nemohou vybrat žádnou konkrétní banku, jsou seskupeni do jedné možnosti 'Bankovní účet', ale po vyvolání platební brány GoPay musí banku vybrat."
+
+msgid "You can only issue a partial refund 24 hours after the payment."
+msgstr "Částečné vrácení peněz je možné pouze 24 hodin po provedení platby."
+
+msgid "Refund failed."
+msgstr "Vrácení peněz se nezdařilo."

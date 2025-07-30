@@ -1,0 +1,559 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: GoPay gateway\n"
+"POT-Creation-Date: 2022-05-16 14:09+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: $this->__;__;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;"
+"_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;"
+"esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 3.0.1\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+
+msgid "GoPay info"
+msgstr "GoPay info"
+
+
+msgid "Info"
+msgstr "Info"
+
+
+msgid "GoPay log"
+msgstr "GoPay log"
+
+
+msgid "Log"
+msgstr "Log"
+
+
+msgid "Plugin Name"
+msgstr "Name des Plugins"
+
+
+msgid "Version"
+msgstr "Version"
+
+
+msgid "Description"
+msgstr "Beschreibung"
+
+
+msgid "Author"
+msgstr "Autor"
+
+
+msgid "Settings"
+msgstr "Einstellungen"
+
+
+msgid "Id"
+msgstr "Id"
+
+
+msgid "Order id"
+msgstr "Bestellnummer"
+
+
+msgid "Transaction id"
+msgstr "Transaktions-ID"
+
+
+msgid "Message"
+msgstr "Nachricht"
+
+
+msgid "Created at"
+msgstr "Erstellt am"
+
+
+msgid "Log level"
+msgstr "Log-Stufe"
+
+
+msgid "Go to"
+msgstr "Gehe zu"
+
+
+msgid "GoPay gateway plugin requires WooCommerce to be active."
+msgstr "Das GoPay-Gateway-Plugin erfordert, dass WooCommerce aktiv ist."
+
+
+msgid "Platební karta"
+msgstr "Zahlungskarte"
+
+
+msgid "Rychlý bankovní převod"
+msgstr "Schnelle Banküberweisung"
+
+
+msgid " "
+msgstr " "
+
+
+msgid "Jiná banka"
+msgstr "Eine andere Bank"
+
+
+msgid "Czech koruna"
+msgstr "Tschechische Krone"
+
+
+msgid "Euro"
+msgstr "Euro"
+
+
+msgid "Polish złoty"
+msgstr "Polnisch złoty"
+
+
+msgid "United States dollar"
+msgstr "Amerikanischer Dollar"
+
+
+msgid "Pound sterling"
+msgstr "Pfund Sterling"
+
+
+msgid "Hungarian forint"
+msgstr "Ungarischer Forint"
+
+
+msgid "Romanian lei"
+msgstr "Rumänischer Lei"
+
+
+msgid "Bulgarian lev"
+msgstr "Bulgarischer Lew"
+
+
+msgid "Croatian kuna"
+msgstr "Kroatische Kuna"
+
+
+msgid "Czech"
+msgstr "Tschechische"
+
+
+msgid "Slovak"
+msgstr "Slowakische"
+
+
+msgid "English"
+msgstr "Englische"
+
+
+msgid "German"
+msgstr "Deutsche"
+
+
+msgid "Russian"
+msgstr "Russische"
+
+
+msgid "Polish"
+msgstr "Polnische"
+
+
+msgid "Hungarian"
+msgstr "Ungarische"
+
+
+msgid "Romanian"
+msgstr "Rumänische"
+
+
+msgid "Bulgarian"
+msgstr "Bulgarische"
+
+
+msgid "Croatian"
+msgstr "Kroatische"
+
+
+msgid "Italian"
+msgstr "Italienische"
+
+
+msgid "French"
+msgstr "Francês"
+
+
+msgid "Spanish"
+msgstr "Spanische"
+
+
+msgid "Ukrainian"
+msgstr "Ukrainische"
+
+
+msgid "Payment card"
+msgstr "Zahlungskarte"
+
+
+msgid "Bank account"
+msgstr "Bankkonto"
+
+
+msgid "Another bank"
+msgstr "Eine andere Bank"
+
+
+msgid ""
+"Products and subscriptions can not be purchased at the same time and only "
+"one subscription per checkout is possible."
+msgstr ""
+"Produkte und Abonnements können nicht gleichzeitig gekauft werden und es "
+"ist nur ein Abonnement pro Kasse möglich."
+
+
+msgid "Only one recurring payment/subscription per checkout is possible"
+msgstr "Nur eine wiederkehrende Zahlung/Abonnement pro Kasse ist möglich"
+
+
+msgid ""
+"GoPay gateway plugin requires WooCommerce Subscriptions Mixed "
+"Checkout option to be disabled."
+msgstr ""
+"Das GoPay-Gateway-Plug-in erfordert, dass die Option WooCommerce Subscriptions Mixed Checkout deaktiviert ist."
+
+
+msgid "GoPay payment gateway"
+msgstr "GoPay-Zahlungsgateway"
+
+
+msgid "Take payments via GoPay payment gateway."
+msgstr "Nehmen Sie Zahlungen über GoPay-Zahlungsgateway entgegen."
+
+
+
+msgid "Enable/Disable"
+msgstr "Aktivieren/Deaktivieren"
+
+
+msgid ""
+"Inform goid, client id and secret to enable GoPay payment gateway and load "
+"the other options"
+msgstr ""
+"Informieren Sie goid, client id und secret, um das GoPay Zahlungsgateway "
+"zu aktivieren und die anderen Optionen zu laden"
+
+
+
+msgid "GoId"
+msgstr "GoId"
+
+
+
+
+msgid ""
+"Enter your unique GoID, which can be found in your GoPay account settings. "
+"%1$sMore information%2$s."
+msgstr "Geben Sie Ihre eindeutige GoID ein, die Sie in den Einstellungen Ihres GoPay-Kontos finden. "
+"%1$sWeitere Informationen%2$s."
+
+
+
+msgid "Insert Your GoID..."
+msgstr "Geben Sie Ihre GoID ein..."
+
+
+
+msgid "Client Id"
+msgstr "Client Id"
+
+
+
+
+msgid ""
+"Enter your client ID, which can be found in your GoPay account settings. "
+"%1$sMore information%2$s."
+msgstr "Geben Sie Ihre Kunden-ID ein, die Sie in den Einstellungen Ihres GoPay-Kontos finden. "
+"%1$sWeitere Informationen%2$s."
+
+
+
+msgid "Insert Your GoPay Client ID..."
+msgstr "Geben Sie Ihre GoPay-Kunden-ID ein..."
+
+
+
+
+msgid "Client secret"
+msgstr "Client secret"
+
+
+
+
+msgid ""
+"Enter your Client Secret Token, which can be found in your GoPay account "
+"settings. %1$sMore information%2$s."
+msgstr "Geben Sie Ihr geheimes Kunden-Token ein, das Sie in den Einstellungen Ihres GoPay-Kontos finden. "
+"%1$sWeitere Informationen%2$s."
+
+
+
+msgid "Insert Your GoPay Client Secret Token..."
+msgstr "Geben Sie Ihr GoPay Client Secret Token ein..."
+
+
+msgid "Enable GoPay payment gateway"
+msgstr "GoPay-Zahlungsgateway aktivieren"
+
+
+msgid "Title"
+msgstr "Titel"
+
+
+msgid "Name of the payment method that is displayed at the checkout"
+msgstr "Name der Zahlungsmethode, die an der Kasse angezeigt wird"
+
+
+msgid "GoPay"
+msgstr "GoPay"
+
+
+msgid "Insert Payment Title..."
+msgstr "Zahlungstitel einfügen..."
+
+
+msgid "Description of the payment method that is displayed at the checkout"
+msgstr "Beschreibung der Zahlungsmethode, die an der Kasse angezeigt wird"
+
+
+msgid "Payment via GoPay gateway"
+msgstr "Zahlung über GoPay-Gateway"
+
+
+
+
+msgid "Insert Description..."
+msgstr "Beschreibung einfügen..."
+
+
+msgid "Test mode"
+msgstr "Prüfmodus"
+
+
+msgid "Enable GoPay payment gateway test mode"
+msgstr "Aktivieren Sie den Testmodus des GoPay-Zahlungsgateways"
+
+
+msgid "Default language of the GoPay interface"
+msgstr "Standardsprache der GoPay-Schnittstelle"
+
+
+msgid "Default Language"
+msgstr "Standardsprache"
+
+
+msgid ""
+"Default language is used when a customer of an e-commerce site is from a "
+"country whose language is not supported."
+msgstr "Die Standardsprache wird verwendet, wenn ein Kunde einer E-Commerce-Website aus einem Land kommt, dessen Sprache nicht unterstützt wird."
+
+
+msgid "Select Default Language..."
+msgstr "Standardsprache auswählen..."
+
+
+msgid "Enable shipping methods"
+msgstr "Versandmethoden aktivieren"
+
+
+msgid "Enable Shipping Methods"
+msgstr "Versandmethoden aktivieren"
+
+
+
+
+msgid ""
+"Enable the GoPay payment gateway only for the selected WooCommerce shipping "
+"methods."
+msgstr "Aktivieren Sie das GoPay-Zahlungsgateway nur für die ausgewählten WooCommerce-Versandmethoden."
+
+
+
+
+msgid "Select Shipping Methods..."
+msgstr "Versandmethoden auswählen..."
+
+
+msgid "Enable countries"
+msgstr "Länder freischalten"
+
+
+msgid "Enable Countries"
+msgstr "Länder freischalten"
+
+
+
+
+msgid "Enable the GoPay payment gateway only for the selected countries."
+msgstr "Aktivieren Sie das GoPay-Zahlungsgateway nur für die ausgewählten Länder."
+
+
+msgid "Select Available Countries..."
+msgstr "Verfügbare Länder auswählen..."
+
+
+msgid "Bank Selection"
+msgstr "Auswahl der Bank"
+
+
+
+
+msgid "Enable simplified bank selection"
+msgstr "Vereinfachte Bankauswahl aktivieren"
+
+
+
+
+
+
+
+msgid ""
+"If enabled, customers cannot choose any specific bank at the checkout, they "
+"are grouped into one “Bank account” option, but they have to select the bank "
+"once the GoPay payment gateway is invoked."
+msgstr "Wenn diese Option aktiviert ist, können die Kunden an der Kasse keine bestimmte Bank auswählen. Sie werden in einer 'Bankkonto'-Option gruppiert, müssen aber die Bank auswählen, sobald das GoPay-Zahlungsgateway aufgerufen wird."
+
+
+msgid "Payment method selection"
+msgstr "Auswahl der Zahlungsmethode"
+
+
+msgid "Enable simplified payment method selection"
+msgstr "Vereinfachte Auswahl der Zahlungsmethode ermöglichen"
+
+
+msgid ""
+"If enabled, customers cannot choose any specific payment method at the "
+"checkout but they have to select the payment method once the GoPay payment "
+"gateway is invoked."
+msgstr ""
+"Wenn diese Option aktiviert ist, können Kunden an der Kasse keine "
+"bestimmte Zahlungsmethode auswählen, sondern müssen die Zahlungsmethode "
+"auswählen, sobald das GoPay-Zahlungsgateway aufgerufen wird."
+
+
+msgid "Enable GoPay payment methods"
+msgstr "GoPay-Zahlungsmethoden aktivieren"
+
+
+msgid "Enable GoPay Payment Methods"
+msgstr "GoPay-Zahlungsmethoden aktivieren"
+
+
+
+
+msgid "Enable only the selected payment methods on the GoPay payment gateway ."
+msgstr "Aktivieren Sie nur die ausgewählten Zahlungsmethoden auf dem GoPay-Zahlungsgateway."
+
+
+
+
+msgid "Select GoPay Payment Methods..."
+msgstr "GoPay-Zahlungsmethoden auswählen..."
+
+
+msgid "Enable banks"
+msgstr "Banken freischalten"
+
+
+msgid "Enable Banks"
+msgstr "Banken freischalten"
+
+
+
+
+msgid "Enable only the selected banks on the GoPay payment gateway ."
+msgstr "Aktivieren Sie nur die ausgewählten Banken auf dem GoPay-Zahlungsgateway."
+
+
+msgid "Select Available Banks..."
+msgstr "Verfügbare Banken auswählen..."
+
+
+msgid "Payment retry payment method"
+msgstr "Zahlungswiederholung Zahlungsmethode"
+
+
+
+
+msgid "Retry Payment Method"
+msgstr "Wiederholung der Zahlungsmethode"
+
+
+msgid "Enable payment retry using the same payment method"
+msgstr "Zahlungswiederholung mit der gleichen Zahlungsmethode aktivieren"
+
+
+msgid ""
+"If enabled, payment retry of a failed payment will be done using the same "
+"payment method that was selected when customer was placing an order."
+msgstr ""
+"Wenn diese Option aktiviert ist, wird die Wiederholung einer "
+"fehlgeschlagenen Zahlung mit der gleichen Zahlungsmethode durchgeführt, "
+"die der Kunde bei der Bestellung ausgewählt hat."
+
+
+
+msgid "Currency is not supported on GoPay"
+msgstr "Währung wird auf GoPay nicht unterstützt"
+
+
+
+msgid "Payment creation on GoPay not possible"
+msgstr "Zahlungserstellung auf GoPay nicht möglich"
+
+
+msgid "Thank you. Your order has been received."
+msgstr "Wir danken Ihnen. Ihre Bestellung ist eingegangen."
+
+
+msgid " Please pay for your subscription after the trial period."
+msgstr " Bitte bezahlen Sie Ihr Abonnement nach Ablauf der Probezeit."
+
+
+msgid ""
+" However, we are still waiting for the confirmation or payment rejection."
+msgstr ""
+" Wir warten jedoch noch auf die Bestätigung oder Ablehnung der Zahlung."
+
+
+msgid ""
+"Unfortunately your order cannot be processed as the payment was not "
+"completed. Please attempt the payment or your purchase again."
+msgstr "Leider kann Ihre Bestellung nicht bearbeitet werden, da die Zahlung nicht abgeschlossen wurde. Bitte versuchen Sie die Zahlung oder Ihren Einkauf erneut."
+
+
+msgid "Wrong GoID and/or credentials. Please provide valid GoID, Client ID and Client Secret."
+msgstr "Falsche GoID und/oder Anmeldedaten. Bitte geben Sie eine gültige GoID, Client ID und Client Secret an."
+
+
+msgid "GoID, Client ID and Client Secret are mandatory. Please provide valid GoID, Client ID and Client Secret."
+msgstr "GoID, Client ID und Client Secret sind obligatorisch. Bitte geben Sie eine gültige GoID, Client ID und Client Secret an."
+
+
+msgid "WooCommerce and GoPay payment gateway integration"
+msgstr "Integration von WooCommerce und GoPay-Zahlungsgateway"
+
+
+msgid "GoPay gateway"
+msgstr "GoPay gateway"
+
+msgid "You can only issue a partial refund 24 hours after the payment."
+msgstr "Eine Teilerstattung kann nur 24 Stunden nach der Zahlung erfolgen."
+
+msgid "Refund failed."
+msgstr "Die Erstattung ist fehlgeschlagen."

@@ -1,0 +1,557 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: GoPay gateway\n"
+"POT-Creation-Date: 2022-05-16 14:09+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: Croatian\n"
+"Language: hr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: $this->__;__;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;"
+"_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;"
+"esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 3.0.1\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+
+msgid "GoPay info"
+msgstr "GoPay info"
+
+
+msgid "Info"
+msgstr "Info"
+
+
+msgid "GoPay log"
+msgstr "GoPay log"
+
+
+msgid "Log"
+msgstr "Log"
+
+
+msgid "Plugin Name"
+msgstr "Naziv dodatka"
+
+
+msgid "Version"
+msgstr "Verzija"
+
+
+msgid "Description"
+msgstr "Opis"
+
+
+msgid "Author"
+msgstr "Autor"
+
+
+msgid "Settings"
+msgstr "Postavke"
+
+
+msgid "Id"
+msgstr "Id"
+
+
+msgid "Order id"
+msgstr "ID narudžbe"
+
+
+msgid "Transaction id"
+msgstr "ID transakcije"
+
+
+msgid "Message"
+msgstr "Poruka"
+
+
+msgid "Created at"
+msgstr "Stvoreno u"
+
+
+msgid "Log level"
+msgstr "Razina dnevnika"
+
+
+msgid "GoPay gateway plugin requires WooCommerce to be active."
+msgstr ""
+"GoPay gateway dodatak zahtijeva da WooCommerce bude aktivan."
+
+
+msgid "Platební karta"
+msgstr "Kreditna kartica"
+
+
+msgid "Rychlý bankovní převod"
+msgstr "Brzi bankovni prijenos"
+
+
+msgid " "
+msgstr " "
+
+
+msgid "Jiná banka"
+msgstr "Druga banka"
+
+
+msgid "Czech koruna"
+msgstr "Češka kruna"
+
+
+msgid "Euro"
+msgstr "Euro"
+
+
+msgid "Polish złoty"
+msgstr "Poljski złoty"
+
+
+msgid "United States dollar"
+msgstr "Američki dolar"
+
+
+msgid "Pound sterling"
+msgstr "Funta sterlinga"
+
+
+msgid "Hungarian forint"
+msgstr "Mađarska forinta"
+
+
+msgid "Romanian lei"
+msgstr "Rumunjski lei"
+
+
+msgid "Bulgarian lev"
+msgstr "Bugarski lev"
+
+
+msgid "Croatian kuna"
+msgstr "Hrvatska kuna"
+
+
+msgid "Czech"
+msgstr "Češki"
+
+
+msgid "Slovak"
+msgstr "Slovački"
+
+
+msgid "English"
+msgstr "Engleski"
+
+
+msgid "German"
+msgstr "Njemački"
+
+
+msgid "Russian"
+msgstr "Ruski"
+
+
+msgid "Polish"
+msgstr "Poljski"
+
+
+msgid "Hungarian"
+msgstr "Mađarski"
+
+
+msgid "Romanian"
+msgstr "Rumunjski"
+
+
+msgid "Bulgarian"
+msgstr "Bugarski"
+
+
+msgid "Croatian"
+msgstr "Hrvatski"
+
+
+msgid "Italian"
+msgstr "Talijanski"
+
+
+msgid "French"
+msgstr "Francuski"
+
+
+msgid "Spanish"
+msgstr "Španjolski"
+
+
+msgid "Ukrainian"
+msgstr "Ukrajinski"
+
+
+msgid ""
+"Products and subscriptions can not be purchased at the same time and only "
+"one subscription per checkout is possible."
+msgstr ""
+"Proizvodi i pretplate ne mogu se kupiti u isto vrijeme i moguća je samo "
+"jedna pretplata po naplati."
+
+
+msgid "Only one recurring payment/subscription per checkout is possible"
+msgstr "Moguće je samo jedno ponavljajuće plaćanje/pretplata po naplati"
+
+
+msgid ""
+"GoPay gateway plugin requires WooCommerce Subscriptions Mixed "
+"Checkout option to be disabled."
+msgstr ""
+"GoPay gateway dodatak zahtijeva da opcija WooCommerce Subscriptions Mixed Checkout bude onemogućena."
+
+
+msgid "GoPay payment gateway"
+msgstr "GoPay pristupnik za plaćanje"
+
+
+msgid "Take payments via GoPay payment gateway."
+msgstr "Primite uplate putem GoPay pristupnika za plaćanje."
+
+
+
+msgid "Enable/Disable"
+msgstr "Omogući onemogući"
+
+
+msgid ""
+"Inform goid, client id and secret to enable GoPay payment gateway and load "
+"the other options"
+msgstr ""
+"Informirajte goid, ID klijenta i tajnu da biste omogućili GoPay pristupnik "
+"za plaćanje i učitali druge opcije"
+
+
+
+msgid "GoId"
+msgstr "GoId"
+
+
+
+msgid "Client Id"
+msgstr "Client Id"
+
+
+
+msgid "Client secret"
+msgstr "Client secret"
+
+
+msgid "Enable GoPay payment gateway"
+msgstr "Omogućite pristupnik za plaćanje GoPay"
+
+
+msgid "Title"
+msgstr "Titula"
+
+
+msgid "Name of the payment method that is displayed at the checkout"
+msgstr "Naziv načina plaćanja koji se prikazuje na blagajni"
+
+
+msgid "GoPay"
+msgstr "GoPay"
+
+
+msgid "Description of the payment method that is displayed at the checkout"
+msgstr "Opis načina plaćanja koji je prikazan na blagajni"
+
+
+msgid "Payment via GoPay gateway"
+msgstr "Plaćanje putem GoPay gatewaya"
+
+
+msgid "Test mode"
+msgstr "Testni način rada"
+
+
+msgid "Enable GoPay payment gateway test mode"
+msgstr "Omogućite testni način rada GoPay pristupnika plaćanja"
+
+
+msgid "Default language of the GoPay interface"
+msgstr "Zadani jezik GoPay sučelja"
+
+
+msgid "Enable shipping methods"
+msgstr "Omogućite načine dostave"
+
+
+msgid "Enable Shipping Methods"
+msgstr "Omogućite načine dostave"
+
+
+msgid "Enable countries"
+msgstr "Omogući zemlje"
+
+
+msgid "Enable Countries"
+msgstr "Omogući zemlje"
+
+
+msgid "Payment method selection"
+msgstr "Odabir načina plaćanja"
+
+
+msgid "Enable simplified payment method selection"
+msgstr "Omogućite pojednostavljeni odabir načina plaćanja"
+
+
+msgid ""
+"If enabled, customers cannot choose any specific payment method at the "
+"checkout but they have to select the payment method once the GoPay payment "
+"gateway is invoked."
+msgstr ""
+"Ako je omogućeno, kupci ne mogu odabrati bilo koji određeni način plaćanja "
+"na naplati, ali moraju odabrati način plaćanja nakon što se pozove GoPay "
+"pristupnik za plaćanje."
+
+
+msgid "Enable GoPay payment methods"
+msgstr "Omogućite GoPay načine plaćanja"
+
+
+msgid "Enable GoPay Payment Methods"
+msgstr "Omogućite GoPay načine plaćanja"
+
+
+msgid "Enable banks"
+msgstr "Omogućite banke"
+
+
+msgid "Enable Banks"
+msgstr "Omogućite banke"
+
+
+msgid "Payment retry payment method"
+msgstr "Plaćanje, pokušaj ponovnog plaćanja"
+
+
+msgid "Enable payment retry using the same payment method"
+msgstr "Omogućite ponovni pokušaj plaćanja koristeći isti način plaćanja"
+
+
+msgid ""
+"If enabled, payment retry of a failed payment will be done using the same "
+"payment method that was selected when customer was placing an order."
+msgstr ""
+"Ako je omogućeno, ponovni pokušaj plaćanja neuspjelog plaćanja izvršit će "
+"se istim načinom plaćanja koji je odabran kada je kupac slao narudžbu."
+
+
+
+msgid "Currency is not supported on GoPay"
+msgstr "GoPay ne podržava valutu"
+
+
+
+msgid "Payment creation on GoPay not possible"
+msgstr "Kreiranje plaćanja na GoPayu nije moguće"
+
+
+msgid "Thank you. Your order has been received."
+msgstr "Hvala vam. Vaša narudžba je primljena."
+
+
+msgid " Please pay for your subscription after the trial period."
+msgstr " Molimo platite pretplatu nakon probnog razdoblja."
+
+
+msgid ""
+" However, we are still waiting for the confirmation or payment rejection."
+msgstr " Međutim, još uvijek čekamo potvrdu ili odbijanje plaćanja."
+
+
+msgid "WooCommerce and GoPay payment gateway integration"
+msgstr "Integracija WooCommerce i GoPay pristupnika za plaćanje"
+
+
+msgid "GoPay gateway"
+msgstr "GoPay gateway"
+
+
+msgid "Go to"
+msgstr "Ići"
+
+
+msgid "Default Language"
+msgstr "Zadani jezik"
+
+
+msgid ""
+"Default language is used when a customer of an e-commerce site is from a "
+"country whose language is not supported."
+msgstr "Zadani jezik koristi se kada je korisnik web-mjesta e-trgovine iz zemlje čiji jezik nije podržan."
+
+
+msgid "Select Default Language..."
+msgstr "Odaberite zadani jezik..."
+
+
+
+
+msgid ""
+"Enable the GoPay payment gateway only for the selected WooCommerce shipping "
+"methods."
+msgstr "Omogućite pristupnik za plaćanje GoPay samo za odabrane WooCommerce načine dostave."
+
+
+
+
+msgid "Select Shipping Methods..."
+msgstr "Odaberite načine dostave..."
+
+
+
+
+msgid "Enable the GoPay payment gateway only for the selected countries."
+msgstr "Omogućite pristupnik za plaćanje GoPay samo za odabrane zemlje."
+
+
+msgid "Select Available Countries..."
+msgstr "Odaberite dostupne zemlje..."
+
+
+msgid "Bank Selection"
+msgstr "Odabir banke"
+
+
+
+
+msgid "Enable simplified bank selection"
+msgstr "Omogućite pojednostavljeni odabir banke"
+
+
+
+
+msgid "Enable only the selected payment methods on the GoPay payment gateway ."
+msgstr "Omogućite samo odabrane načine plaćanja na GoPay pristupniku za plaćanje."
+
+
+
+
+msgid ""
+"Enter your unique GoID, which can be found in your GoPay account settings. "
+"%1$sMore information%2$s."
+msgstr "Unesite svoj jedinstveni GoID koji se može pronaći u postavkama vašeg GoPay računa."
+"%1$sViše informacija%2$s."
+
+
+
+
+msgid ""
+"Enter your client ID, which can be found in your GoPay account settings. "
+"%1$sMore information%2$s."
+msgstr "Unesite svoj ID klijenta koji se može pronaći u postavkama vašeg GoPay računa. "
+"%1$sViše informacija%2$s."
+
+
+
+
+msgid ""
+"Enter your Client Secret Token, which can be found in your GoPay account "
+"settings. %1$sMore information%2$s."
+msgstr "Unesite svoj Client Secret Token, koji se može pronaći u postavkama vašeg GoPay računa. "
+"%1$sViše informacija%2$s."
+
+
+
+msgid "Insert Your GoID..."
+msgstr "Umetnite svoj GoID..."
+
+
+
+msgid "Insert Your GoPay Client ID..."
+msgstr "Unesite svoj GoPay ID klijenta..."
+
+
+
+msgid "Insert Your GoPay Client Secret Token..."
+msgstr "Umetnite svoj GoPay Client Secret Token..."
+
+
+msgid "Insert Payment Title..."
+msgstr "Umetni naslov plaćanja..."
+
+
+
+
+msgid "Insert Description..."
+msgstr "Umetni opis..."
+
+
+
+
+msgid "Select GoPay Payment Methods..."
+msgstr "Odaberite GoPay načine plaćanja..."
+
+
+msgid "Payment card"
+msgstr "Kartica za plaćanje"
+
+
+msgid "Bank account"
+msgstr "Bankovni račun"
+
+
+msgid "Another bank"
+msgstr "Druga banka"
+
+
+
+
+msgid "Enable only the selected banks on the GoPay payment gateway ."
+msgstr "Omogućite samo odabrane banke na GoPay pristupniku za plaćanje."
+
+
+msgid "Select Available Banks..."
+msgstr "Odaberite dostupne banke..."
+
+
+msgid ""
+"Unfortunately your order cannot be processed as the payment was not "
+"completed. Please attempt the payment or your purchase again."
+msgstr "Nažalost, vaša narudžba nije moguće obraditi jer plaćanje nije izvršeno. Pokušajte ponovno izvršiti plaćanje ili kupnju."
+
+
+msgid "Wrong GoID and/or credentials. Please provide valid GoID, Client ID and Client Secret."
+msgstr "Pogrešan GoID i/ili vjerodajnice. Navedite važeći GoID, ID klijenta i tajnu tajnu klijenta."
+
+
+msgid "GoID, Client ID and Client Secret are mandatory. Please provide valid GoID, Client ID and Client Secret."
+msgstr "GoOD, Client ID i Client Secret su obavezni. Navedite važeći GoID, ID klijenta i tajnu tajnu klijenta."
+
+
+
+
+
+
+
+msgid ""
+"If enabled, customers cannot choose any specific bank at the checkout, they "
+"are grouped into one “Bank account” option, but they have to select the bank "
+"once the GoPay payment gateway is invoked."
+msgstr "Ako je omogućeno, klijenti ne mogu birati nijednu određenu banku na blagajni, oni su grupirani u jednu opciju 'Bankovni račun', ali moraju odabrati banku nakon što se pozove GoPay pristupnik za plaćanje."
+
+
+
+
+msgid "Retry Payment Method"
+msgstr "Ponovi metodu plaćanja"
+
+msgid "You can only issue a partial refund 24 hours after the payment."
+msgstr "Djelomičan povrat možete izvršiti samo 24 sata nakon uplate."
+
+msgid "Refund failed."
+msgstr "Povrat nije uspio."

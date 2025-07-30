@@ -1,0 +1,559 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: GoPay gateway\n"
+"POT-Creation-Date: 2022-05-16 14:09+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: Hungarian\n"
+"Language: hu_HU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: $this->__;__;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;"
+"_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;"
+"esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 3.0.1\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+
+msgid "GoPay info"
+msgstr "GoPay info"
+
+
+msgid "Info"
+msgstr "Info"
+
+
+msgid "GoPay log"
+msgstr "GoPay log"
+
+
+msgid "Log"
+msgstr "Log"
+
+
+msgid "Plugin Name"
+msgstr "Plugin neve"
+
+
+msgid "Version"
+msgstr "Verzió"
+
+
+msgid "Description"
+msgstr "Leírás"
+
+
+msgid "Author"
+msgstr "Szerző"
+
+
+msgid "Settings"
+msgstr "Beállítások"
+
+
+msgid "Id"
+msgstr "Id"
+
+
+msgid "Order id"
+msgstr "Rendelési azonosító"
+
+
+msgid "Transaction id"
+msgstr "Tranzakció azonosító"
+
+
+msgid "Message"
+msgstr "Üzenet"
+
+
+msgid "Created at"
+msgstr "Készült a"
+
+
+msgid "Log level"
+msgstr "Naplózási szint"
+
+
+msgid "GoPay gateway plugin requires WooCommerce to be active."
+msgstr ""
+"A GoPay átjáró plugin megköveteli, hogy a WooCommerce aktív legyen."
+
+
+msgid "Platební karta"
+msgstr "Fizetőkártya"
+
+
+msgid "Rychlý bankovní převod"
+msgstr "Gyors banki átutalás"
+
+
+msgid " "
+msgstr " "
+
+
+msgid "Jiná banka"
+msgstr "Egy másik bank"
+
+
+msgid "Czech koruna"
+msgstr "Cseh korona"
+
+
+msgid "Euro"
+msgstr "Euro"
+
+
+msgid "Polish złoty"
+msgstr "Lengyel złoty"
+
+
+msgid "United States dollar"
+msgstr "Egyesült Államok dollár"
+
+
+msgid "Pound sterling"
+msgstr "Font sterling"
+
+
+msgid "Hungarian forint"
+msgstr "Magyar forint"
+
+
+msgid "Romanian lei"
+msgstr "Román lej"
+
+
+msgid "Bulgarian lev"
+msgstr "Bolgár lev"
+
+
+msgid "Croatian kuna"
+msgstr "Horvát kuna"
+
+
+msgid "Czech"
+msgstr "Cseh nyelv"
+
+
+msgid "Slovak"
+msgstr "Szlovák"
+
+
+msgid "English"
+msgstr "Angol"
+
+
+msgid "German"
+msgstr "Német"
+
+
+msgid "Russian"
+msgstr "Orosz"
+
+
+msgid "Polish"
+msgstr "Lengyel"
+
+
+msgid "Hungarian"
+msgstr "Magyar"
+
+
+msgid "Romanian"
+msgstr "Román"
+
+
+msgid "Bulgarian"
+msgstr "Bolgár"
+
+
+msgid "Croatian"
+msgstr "Horvát"
+
+
+msgid "Italian"
+msgstr "Olasz"
+
+
+msgid "French"
+msgstr "Francia"
+
+
+msgid "Spanish"
+msgstr "Spanyol"
+
+
+msgid "Ukrainian"
+msgstr "Ukrán"
+
+
+msgid ""
+"Products and subscriptions can not be purchased at the same time and only "
+"one subscription per checkout is possible."
+msgstr ""
+"A termékek és az előfizetések nem vásárolhatók meg egyszerre, és "
+"pénztáranként csak egy előfizetés lehetséges."
+
+
+msgid "Only one recurring payment/subscription per checkout is possible"
+msgstr "Pénztáranként csak egy ismétlődő fizetés/előfizetés lehetséges"
+
+
+msgid ""
+"GoPay gateway plugin requires WooCommerce Subscriptions Mixed "
+"Checkout option to be disabled."
+msgstr ""
+"A GoPay gateway plugin megköveteli a WooCommerce Subscriptions Mixed Checkout opció kikapcsolását."
+
+
+msgid "GoPay payment gateway"
+msgstr "GoPay fizetési átjáró"
+
+
+msgid "Take payments via GoPay payment gateway."
+msgstr "Fizetések fogadása a GoPay fizetési átjárón keresztül."
+
+
+
+msgid "Enable/Disable"
+msgstr "Engedélyezés/Kikapcsolás"
+
+
+msgid ""
+"Inform goid, client id and secret to enable GoPay payment gateway and load "
+"the other options"
+msgstr ""
+"A GoPay fizetési átjáró engedélyezéséhez és a többi opció betöltéséhez "
+"adja meg a goid, az ügyfél azonosítót és a titkot"
+
+
+
+msgid "GoId"
+msgstr "GoId"
+
+
+
+msgid "Client Id"
+msgstr "Client Id"
+
+
+
+msgid "Client secret"
+msgstr "Client secret"
+
+
+msgid "Enable GoPay payment gateway"
+msgstr "A GoPay fizetési átjáró engedélyezése"
+
+
+msgid "Title"
+msgstr "Cím"
+
+
+msgid "Name of the payment method that is displayed at the checkout"
+msgstr "A pénztárnál megjelenő fizetési mód neve"
+
+
+msgid "GoPay"
+msgstr "GoPay"
+
+
+msgid "Description of the payment method that is displayed at the checkout"
+msgstr "A pénztárnál megjelenő fizetési mód leírása"
+
+
+msgid "Payment via GoPay gateway"
+msgstr "Fizetés a GoPay átjárón keresztül"
+
+
+msgid "Test mode"
+msgstr "Teszt üzemmód"
+
+
+msgid "Enable GoPay payment gateway test mode"
+msgstr "A GoPay fizetési átjáró tesztmódjának engedélyezése"
+
+
+msgid "Default language of the GoPay interface"
+msgstr "A GoPay felület alapértelmezett nyelve"
+
+
+msgid "Enable shipping methods"
+msgstr "Szállítási módszerek engedélyezése"
+
+
+msgid "Enable Shipping Methods"
+msgstr "Szállítási módszerek engedélyezése"
+
+
+msgid "Enable countries"
+msgstr "Országok engedélyezése"
+
+
+msgid "Enable Countries"
+msgstr "Országok engedélyezése"
+
+
+msgid "Payment method selection"
+msgstr "Fizetési mód kiválasztása"
+
+
+msgid "Enable simplified payment method selection"
+msgstr "Egyszerűsített fizetési mód kiválasztásának lehetővé tétele"
+
+
+msgid ""
+"If enabled, customers cannot choose any specific payment method at the "
+"checkout but they have to select the payment method once the GoPay payment "
+"gateway is invoked."
+msgstr ""
+"Ha engedélyezve van, az ügyfelek nem választhatnak konkrét fizetési módot "
+"a pénztárnál, hanem a GoPay fizetési átjáró meghívása után kell "
+"kiválasztaniuk a fizetési módot."
+
+
+msgid "Enable GoPay payment methods"
+msgstr "A GoPay fizetési módok engedélyezése"
+
+
+msgid "Enable GoPay Payment Methods"
+msgstr "A GoPay fizetési módok engedélyezése"
+
+
+msgid "Enable banks"
+msgstr "Bankok engedélyezése"
+
+
+msgid "Enable Banks"
+msgstr "Bankok engedélyezése"
+
+
+msgid "Payment retry payment method"
+msgstr "Fizetés megismétlése fizetési mód"
+
+
+msgid "Enable payment retry using the same payment method"
+msgstr "Engedélyezze a fizetés megismétlését ugyanazzal a fizetési móddal"
+
+
+msgid ""
+"If enabled, payment retry of a failed payment will be done using the same "
+"payment method that was selected when customer was placing an order."
+msgstr ""
+"Ha engedélyezve van, a sikertelen fizetés megismétlése ugyanazzal a "
+"fizetési móddal történik, amelyet az ügyfél a megrendelés leadásakor "
+"kiválasztott."
+
+
+
+msgid "Currency is not supported on GoPay"
+msgstr "A GoPay nem támogatja a valutát"
+
+
+
+msgid "Payment creation on GoPay not possible"
+msgstr "Fizetés létrehozása a GoPay-en nem lehetséges"
+
+
+msgid "Thank you. Your order has been received."
+msgstr "Köszönöm. Megrendelését megkapta."
+
+
+msgid " Please pay for your subscription after the trial period."
+msgstr " Kérjük, a próbaidőszak után fizesse ki az előfizetést."
+
+
+msgid ""
+" However, we are still waiting for the confirmation or payment rejection."
+msgstr ""
+" Azonban még mindig várjuk a visszaigazolást vagy a fizetés elutasítását."
+
+
+msgid "WooCommerce and GoPay payment gateway integration"
+msgstr "WooCommerce és GoPay fizetési átjáró integráció"
+
+
+msgid "GoPay gateway"
+msgstr "GoPay gateway"
+
+
+msgid "Go to"
+msgstr "Menjen a"
+
+
+msgid "Default Language"
+msgstr "Alapértelmezett nyelv"
+
+
+msgid ""
+"Default language is used when a customer of an e-commerce site is from a "
+"country whose language is not supported."
+msgstr "Az alapértelmezett nyelvet akkor használjuk, ha egy e-kereskedelmi webhely vásárlója olyan országból származik, amelynek nyelve nem támogatott."
+
+
+msgid "Select Default Language..."
+msgstr "Alapértelmezett nyelv kiválasztása..."
+
+
+
+
+msgid ""
+"Enable the GoPay payment gateway only for the selected WooCommerce shipping "
+"methods."
+msgstr "A GoPay fizetési átjáró engedélyezése csak a kiválasztott WooCommerce szállítási módokhoz."
+
+
+
+
+msgid "Select Shipping Methods..."
+msgstr "Szállítási módok kiválasztása..."
+
+
+
+
+msgid "Enable the GoPay payment gateway only for the selected countries."
+msgstr "A GoPay fizetési átjáró engedélyezése csak a kiválasztott országokban."
+
+
+msgid "Select Available Countries..."
+msgstr "Válassza ki az elérhető országokat..."
+
+
+msgid "Bank Selection"
+msgstr "Bank kiválasztása"
+
+
+
+
+msgid "Enable simplified bank selection"
+msgstr "Egyszerűsített bankválasztás engedélyezése"
+
+
+
+
+msgid "Enable only the selected payment methods on the GoPay payment gateway ."
+msgstr "Csak a kiválasztott fizetési módok engedélyezése a GoPay fizetési átjárón."
+
+
+
+
+msgid ""
+"Enter your unique GoID, which can be found in your GoPay account settings. "
+"%1$sMore information%2$s."
+msgstr "Adja meg egyedi GoID azonosítóját, amelyet a GoPay-fiók beállításaiban talál. "
+"%1$sTovábbi információ%2$s."
+
+
+
+
+msgid ""
+"Enter your client ID, which can be found in your GoPay account settings. "
+"%1$sMore information%2$s."
+msgstr "Adja meg ügyfél-azonosítóját, amelyet a GoPay-fiók beállításaiban talál. "
+"%1$sTovábbi információ%2$s."
+
+
+
+
+msgid ""
+"Enter your Client Secret Token, which can be found in your GoPay account "
+"settings. %1$sMore information%2$s."
+msgstr "Adja meg az ügyféltitkot (Client Secret Token), amelyet a GoPay-fiók beállításaiban talál. "
+"%1$sTovábbi információ%2$s."
+
+
+
+msgid "Insert Your GoID..."
+msgstr "GoID beillesztése..."
+
+
+
+msgid "Insert Your GoPay Client ID..."
+msgstr "Adja meg GoPay ügyfél azonosítóját..."
+
+
+
+msgid "Insert Your GoPay Client Secret Token..."
+msgstr "Adja meg a GoPay ügyfél titkos tokenjét..."
+
+
+msgid "Insert Payment Title..."
+msgstr "Fizetési cím beillesztése..."
+
+
+
+
+msgid "Insert Description..."
+msgstr "Leírás beillesztése..."
+
+
+
+
+msgid "Select GoPay Payment Methods..."
+msgstr "GoPay fizetési módok kiválasztása..."
+
+
+msgid "Payment card"
+msgstr "Fizetőkártya"
+
+
+msgid "Bank account"
+msgstr "Bankszámla"
+
+
+msgid "Another bank"
+msgstr "Egy másik bank"
+
+
+
+
+msgid "Enable only the selected banks on the GoPay payment gateway ."
+msgstr "Csak a kiválasztott bankok engedélyezése a GoPay fizetési átjárón."
+
+
+msgid "Select Available Banks..."
+msgstr "Válassza ki a rendelkezésre álló bankokat..."
+
+
+msgid ""
+"Unfortunately your order cannot be processed as the payment was not "
+"completed. Please attempt the payment or your purchase again."
+msgstr "Sajnos a megrendelését nem tudjuk feldolgozni, mivel a fizetés nem történt meg. Kérjük, próbálja meg újra a fizetést vagy a vásárlást."
+
+
+msgid "Wrong GoID and/or credentials. Please provide valid GoID, Client ID and Client Secret."
+msgstr "Rossz GoID és/vagy hitelesítő adatok. Kérjük, adjon meg érvényes GoID-t, ügyfél-azonosítót és ügyféltitkot."
+
+
+msgid "GoID, Client ID and Client Secret are mandatory. Please provide valid GoID, Client ID and Client Secret."
+msgstr "A GoID, az ügyfél azonosító és az ügyfél titok kötelező. Kérjük, adjon meg érvényes GoID-t, ügyfél-azonosítót és ügyféltitkot."
+
+
+
+
+
+
+
+msgid ""
+"If enabled, customers cannot choose any specific bank at the checkout, they "
+"are grouped into one “Bank account” option, but they have to select the bank "
+"once the GoPay payment gateway is invoked."
+msgstr "Ha engedélyezve van, az ügyfelek nem választhatnak konkrét bankot a pénztárnál, azok egy 'Bankszámla' opcióba vannak csoportosítva, de a GoPay fizetési átjáró meghívása után ki kell választaniuk a bankot."
+
+
+
+
+msgid "Retry Payment Method"
+msgstr "Fizetési mód megismétlése"
+
+msgid "You can only issue a partial refund 24 hours after the payment."
+msgstr "Részleges visszatérítést csak a kifizetést követő 24 órán belül adhat ki."
+
+msgid "Refund failed."
+msgstr "A visszatérítés sikertelen."
