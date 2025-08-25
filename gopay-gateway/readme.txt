@@ -2,9 +2,9 @@
 Contributors: GoPay
 Tags: WooCommerce, GoPay
 Requires at least: 5.8
-Tested up to: 6.7.1
+Tested up to: 6.8.1
 Requires PHP: 8.1
-Stable tag: 1.0.15
+Stable tag: 1.0.16
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -109,3 +109,6 @@ Updated supported WordPress version to v6.7.1 and WooCommerce to v9.6.1.
 
 = 1.0.15 =
 Add extra API parameters and fix an issue that, in certain cases, prevents virtual products from being added to checkout.
+
+= 1.0.16 =
+Updated supported WordPress version to v6.8.1 and WooCommerce to v10.1.0.
