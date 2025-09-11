@@ -582,8 +582,44 @@ function init_gopay_gateway_gateway() {
 			$get = wp_unslash( $_GET );
 			if ( ! empty( $get['gopay_url'] ) && ! empty( $get['_wpnonce'] ) &&
 				wp_verify_nonce( $get['_wpnonce'], 'gw_url' ) ) {
-				echo wp_kses( '<script>_gopay.checkout({gatewayUrl: "' . esc_url( $get['gopay_url'] ) . '", inline: true});</script>',
-                array( 'script' => array() ) );
+
+				$gateway_url = esc_js( esc_url_raw( $get['gopay_url'] ) );
+
+				$inline_js = <<<JS
+				(function(){
+					// prevent double-init across multiple inline injections
+					if (window.__gopay_init_done) return;
+
+					function initGoPay(){
+						if (window.__gopay_init_done) return;
+
+						if (typeof _gopay !== 'undefined' && typeof _gopay.checkout === 'function') {
+							try {
+								_gopay.checkout({gatewayUrl: "{$gateway_url}", inline: true});
+							} catch (e) {
+								if (window.console && console.error) console.error('gopay checkout error', e);
+							}
+							window.__gopay_init_done = true;
+							return;
+						}
+
+						setTimeout(initGoPay, 120);
+					}
+
+					initGoPay();
+				})();
+				JS;
+
+				// Attach to the SDK handle so WP prints it immediately
+				add_action( 'wp_enqueue_scripts', function() use ( $inline_js ) {
+					wp_add_inline_script( 'gopay-gateway-inline-scripts', $inline_js );
+				} );
+
+				//  Fallback - print in footer for themes that handle enqueues unexpectedly.
+				//	Late priority - after most other footer work.
+				add_action( 'wp_footer', function() use ( $inline_js ) {
+				echo '<script id="gopay-inline-fallback">' . $inline_js . '</script>';
+				}, 999 );
 			}
 			// end Inline.
 

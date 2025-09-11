@@ -4,7 +4,7 @@ Tags: WooCommerce, GoPay
 Requires at least: 5.8
 Tested up to: 6.8.1
 Requires PHP: 8.1
-Stable tag: 1.0.16
+Stable tag: 1.0.17
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -112,3 +112,6 @@ Add extra API parameters and fix an issue that, in certain cases, prevents virtu
 
 = 1.0.16 =
 Updated supported WordPress version to v6.8.1 and WooCommerce to v10.1.0.
+
+= 1.0.17 =
+Fix the error for an undefined GoPay reference that prevents the payment gateway from opening in some popular WordPress themes.
