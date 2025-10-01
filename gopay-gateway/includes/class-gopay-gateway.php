@@ -593,7 +593,7 @@ function init_gopay_gateway_gateway() {
 					function initGoPay(){
 						if (window.__gopay_init_done) return;
 
-						if (typeof _gopay !== 'undefined' && typeof _gopay.checkout === 'function') {
+						if (typeof _gopay !== 'undefined' && typeof _gopay.checkout === 'function' && document.body) {
 							try {
 								_gopay.checkout({gatewayUrl: "{$gateway_url}", inline: true});
 							} catch (e) {
@@ -606,7 +606,12 @@ function init_gopay_gateway_gateway() {
 						setTimeout(initGoPay, 120);
 					}
 
-					initGoPay();
+					// run after DOM is at least parsed
+					if (document.readyState === 'loading') {
+						document.addEventListener('DOMContentLoaded', initGoPay);
+					} else {
+						initGoPay();
+					}
 				})();
 				JS;
 
