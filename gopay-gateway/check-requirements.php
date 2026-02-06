@@ -27,11 +27,11 @@ function check_is_plugin_active( $path ): bool {
 }
 
 // Check if WooCommerce is active.
-$message = __(
-	'GoPay gateway plugin requires WooCommerce to be active.',
-	'gopay-gateway'
-);
-if ( ! check_is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
+if ( ! check_is_plugin_active('woocommerce/woocommerce.php') ) {
+	$message = __(
+		'GoPay gateway plugin requires WooCommerce to be active.',
+		'gopay-gateway'
+	);
 	exit( esc_html( $message ) );
 }
 

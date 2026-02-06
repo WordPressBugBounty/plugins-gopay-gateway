@@ -63,14 +63,8 @@ function init_gopay_gateway_gateway() {
 				GOPAY_GATEWAY_URL . 'includes/assets/images/gopay.png'
 			);
 			$this->has_fields         = false;
-			$this->method_title       = __(
-				'GoPay payment gateway',
-				'gopay-gateway'
-			);
-			$this->method_description = __(
-				'Take payments via GoPay payment gateway.',
-				'gopay-gateway'
-			);
+			$this->method_title       = 'GoPay payment gateway';
+			$this->method_description = 'Take payments via GoPay payment gateway.';
 
 			$this->enable_currencies          = Gopay_Gateway_Options::supported_currencies();
 			$this->supported_languages        = Gopay_Gateway_Options::supported_languages();
@@ -151,6 +145,18 @@ function init_gopay_gateway_gateway() {
 			if ( check_is_plugin_active( 'woocommerce-subscriptions/woocommerce-subscriptions.php' ) ) {
 				Gopay_Gateway_Subscriptions::subscriptions_actions_filters();
 			}
+		}
+		
+		public function get_method_title() {
+			return __( $this->method_title, 'gopay-gateway' ); 
+		}
+
+		public function get_method_description() {
+			return __( $this->method_description, 'gopay-gateway' );
+		}
+
+		public function get_simplified_bank_selection() {
+			return $this->simplified_bank_selection;
 		}
 
 		/**
@@ -271,25 +277,6 @@ function init_gopay_gateway_gateway() {
 						'css'     => 'display: none;',
 						'default' => 'no',
 					),
-					'goid'          => array(
-						'title'       => __( 'GoID', 'gopay-gateway' ),
-						'type'        => 'text',
-						'description' => __(
-							sprintf(
-								__(
-									'Enter your unique GoID, which can be found in your GoPay account settings.'
-									. ' %1$sMore information%2$s.',
-									'gopay-gateway'
-								),
-								'<a href="https://help.gopay.com/en/knowledge-base/gopay-account/' .
-								'gopay-business-account/signing-in-password-reset-activating-and-deactivating' .
-								'-the-payment-gateway/how-to-activate-the-payment-gateway">',
-								'</a>'
-							)
-						),
-						'css'         => 'width: 500px;',
-						'placeholder' => __( 'Insert Your GoID...', 'gopay-gateway' ),
-					),
 					'client_id'     => array(
 						'title'       => __( 'Client ID', 'gopay-gateway' ),
 						'type'        => 'text',
@@ -327,6 +314,25 @@ function init_gopay_gateway_gateway() {
 						),
 						'css'         => 'width: 500px;',
 						'placeholder' => __( 'Insert Your GoPay Client Secret Token...', 'gopay-gateway' ),
+					),
+					'goid'          => array(
+						'title'       => __( 'GoID', 'gopay-gateway' ),
+						'type'        => 'text',
+						'description' => __(
+							sprintf(
+								__(
+									'Enter your unique GoID, which can be found in your GoPay account settings.'
+									. ' %1$sMore information%2$s.',
+									'gopay-gateway'
+								),
+								'<a href="https://help.gopay.com/en/knowledge-base/gopay-account/' .
+								'gopay-business-account/signing-in-password-reset-activating-and-deactivating' .
+								'-the-payment-gateway/how-to-activate-the-payment-gateway">',
+								'</a>'
+							)
+						),
+						'css'         => 'width: 500px;',
+						'placeholder' => __( 'Insert Your GoID...', 'gopay-gateway' ),
 					),
 					'test'                             => array(
 						'title'    => __( 'Test mode', 'gopay-gateway' ),
@@ -396,25 +402,6 @@ function init_gopay_gateway_gateway() {
 						'desc_tip'    => true,
 						'placeholder' => __( 'Insert Description...', 'gopay-gateway' ),
 					),
-					'goid'                             => array(
-						'title'       => __( 'GoID', 'gopay-gateway' ),
-						'type'        => 'text',
-						'description' => __(
-							sprintf(
-								__(
-									'Enter your unique GoID, which can be found in your GoPay account settings.'
-									. ' %1$sMore information%2$s.',
-									'gopay-gateway'
-								),
-								'<a href="https://help.gopay.com/en/knowledge-base/gopay-account/' .
-								'gopay-business-account/signing-in-password-reset-activating-and-deactivating' .
-								'-the-payment-gateway/how-to-activate-the-payment-gateway">',
-								'</a>'
-							)
-						),
-						'css'         => 'width: 500px;',
-						'placeholder' => __( 'Insert Your GoID...', 'gopay-gateway' ),
-					),
 					'client_id'                        => array(
 						'title'       => __( 'Client ID', 'gopay-gateway' ),
 						'type'        => 'text',
@@ -452,6 +439,25 @@ function init_gopay_gateway_gateway() {
 						),
 						'css'         => 'width: 500px;',
 						'placeholder' => __( 'Insert Your GoPay Client Secret Token...', 'gopay-gateway' ),
+					),
+					'goid'                             => array(
+						'title'       => __( 'GoID', 'gopay-gateway' ),
+						'type'        => 'text',
+						'description' => __(
+							sprintf(
+								__(
+									'Enter your unique GoID, which can be found in your GoPay account settings.'
+									. ' %1$sMore information%2$s.',
+									'gopay-gateway'
+								),
+								'<a href="https://help.gopay.com/en/knowledge-base/gopay-account/' .
+								'gopay-business-account/signing-in-password-reset-activating-and-deactivating' .
+								'-the-payment-gateway/how-to-activate-the-payment-gateway">',
+								'</a>'
+							)
+						),
+						'css'         => 'width: 500px;',
+						'placeholder' => __( 'Insert Your GoID...', 'gopay-gateway' ),
 					),
 					'test'                             => array(
 						'title'    => __( 'Test mode', 'gopay-gateway' ),
@@ -786,7 +792,7 @@ function init_gopay_gateway_gateway() {
 						'_input" name="gopay_payment_method" type="radio" id="%s" value="%s" %s />
 					    <span>%s</span>
 					</div>
-					<img src="%s" alt="ico" style="height: auto; width: auto; margin-left: auto;"/>
+					<img src="%s" alt="ico" style="max-height: 60px; height: auto; width: auto; margin-left: auto;"/>
 					</div>';
 
 				foreach ( $payment_methods as $payment_method => $payment_method_label_image ) {
@@ -912,6 +918,13 @@ function init_gopay_gateway_gateway() {
 			// GoPay API only considers cents.
 			// Rounding total to 2 decimals.
 			$order->set_total( wc_format_decimal( $order->get_total(), 2 ) );
+
+			// Try to get Payment method from $_POST or $_Request
+			if (isset($_POST['gopay_payment_method'])) {
+				$gopay_payment_method = sanitize_text_field($_POST['gopay_payment_method']);
+			} elseif (isset($_REQUEST['payment_data']) && isset($_REQUEST['payment_data']['gopay_payment_method'])) {
+				$gopay_payment_method = sanitize_text_field($_REQUEST['payment_data']['gopay_payment_method']);
+			}
 
 			$response = Gopay_Gateway_API::create_payment(
 				$gopay_payment_method,
@@ -1082,6 +1095,11 @@ function init_gopay_gateway_gateway() {
 		 * @since  1.0.0
 		 */
 		public function thankyou_page( $message, $order ) {
+			// Order is not created by GoPay
+			if ( ! is_object( $order ) || $this->id !== $order->get_payment_method() ) {
+				return $message;
+			}
+
 			$message      = __( 'Thank you. Your order has been received.', 'gopay-gateway' );
 
 			if ( is_object( $order ) ) {

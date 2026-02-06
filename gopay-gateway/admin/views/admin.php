@@ -31,7 +31,7 @@ $settings_url = admin_url( 'admin.php?page=wc-settings&tab=checkout&section=' . 
 			<tr>
 				<td><a href="https://github.com/argo22packages/gopay-woocommerce-integration">
                     <?php echo wp_kses_post( __( 'GoPay gateway', 'gopay-gateway' ) ); ?></a></td>
-				<td><?php echo wp_kses_post( __( GOPAY_WOOCOMMERCE_VERSION, 'gopay-gateway' ) ); ?></td>
+				<td><?php echo wp_kses_post( esc_html( GOPAY_WOOCOMMERCE_VERSION ) ) ?></td>
 				<td><?php echo wp_kses_post( __( 'WooCommerce and GoPay payment gateway integration', 'gopay-gateway' ) ); ?></td>
 				<td><a href="https://www.gopay.com/"><?php echo wp_kses_post( __( 'GoPay', 'gopay-gateway' ) ); ?></a></td>
 				<?php

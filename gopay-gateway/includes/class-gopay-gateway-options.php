@@ -346,7 +346,6 @@ class Gopay_Gateway_Options {
 		}
 
 		return $matches;
-
 	}
 
 	/**
@@ -366,6 +365,19 @@ class Gopay_Gateway_Options {
 	 * @return array
 	 */
 	public static function supported_shipping_methods(): array {
+		// Only in admin context.
+		if ( ! is_admin() ) {
+			if ( ! isset ( $_REQUEST['page'] ) || 'wc-settings' !== $_REQUEST['page'] ) {
+				return array();
+			}
+			if ( ! isset ( $_REQUEST['tab'] ) || 'checkout' !== $_REQUEST['tab'] ) {
+				return array();
+			}
+			if ( ! isset ( $_REQUEST['section'] ) || 'wc_gopay_gateway' !== $_REQUEST['section'] ) {
+				return array();
+			}
+		}
+
 		if ( empty( WC()->countries ) ) {
 			return array();
 		}
@@ -390,7 +402,18 @@ class Gopay_Gateway_Options {
 				}
 			}
 		}
-	
+
+		if ( class_exists( '\Automattic\WooCommerce\Blocks\Shipping\PickupLocation' ) ) {
+			$pickup_class = new Automattic\WooCommerce\Blocks\Shipping\PickupLocation();
+
+			// Add Local Pickup option only if there is a pickup location defined
+			$pickup_locations = get_option( 'pickup_location_pickup_locations', array() );
+
+			if ( ! empty( $pickup_locations ) && is_array( $pickup_locations ) ) {
+				$all_enabled_shipping_methods[$pickup_class->id] = __( $pickup_class->title, 'gopay-gateway' );
+			}
+		}
+
 		return $all_enabled_shipping_methods;
 	}
 
@@ -633,6 +656,10 @@ class Gopay_Gateway_Options {
 			),
 			'TOBAPLPW'     => array(
 				'label'   => __( 'Toyota Bank', 'gopay-gateway' ),
+				'country' => 'PL',
+			),
+			'GBGCPLPK-BLIK'     => array(
+				'label'   => __( 'Blik', 'gopay-gateway' ),
 				'country' => 'PL',
 			),
 			'OTHERS'       => array(

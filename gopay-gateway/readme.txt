@@ -2,20 +2,48 @@
 Contributors: GoPay
 Tags: WooCommerce, GoPay
 Requires at least: 5.8
-Tested up to: 6.8.1
+Tested up to: 6.9
 Requires PHP: 8.1
-Stable tag: 1.0.18
+Stable tag: 1.0.24
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 WooCommerce and GoPay payment gateway integration
 
 == Description ==
-This is the official plugin for connecting GoPay payment gateway to your e-shop. GoPay is already used by over 18,000 e-shops in the Czech Republic, Slovakia and all over the world. Start accepting payments today!
+Official plugin for integrating the GoPay payment gateway with WooCommerce. Fast, secure, and simple – no external setup needed.
+
+= Key Features =
+* Integrated support for multiple payment methods: cards, Apple Pay, Google Pay, bank transfer, QR payments, saved cards.
+* Responsive checkout – works seamlessly on both desktop and mobile.
+* Subscriptions and recurring payments (compatible with WooCommerce Subscriptions).
+* Security: PSD2, 3D Secure, and encrypted data transfer.
+* Support for multiple currencies and 19+ languages.
+* Automatic notifications (webhooks) about payment and order status.
+* Refunds, cancellations, and payment renewals directly from WooCommerce admin.
+
+= Supported Payment Methods =
+* **Credit and debit card payments** – Accept secure card payments directly on your site, with support for PSD2 and 3D Secure.
+* **Google Pay** – Fast and simple payments using saved cards through Android devices or web browsers.
+* **Apple Pay** – Seamless checkout with Apple’s secure payment platform, optimized for iPhone, iPad, and Mac.
+* **Click to Pay** – Modern payment method supported by Visa and Mastercard, enabling one-click checkout with stored cards.
+* **Bank transfer** – Standard bank transfers for customers preferring direct payments from their bank account.
+* **QR payments** – Convenient QR code payments widely used in the Czech Republic and Slovakia.
+* **Saved cards** – Customers can store their card details securely for faster one-click payments in the future.
+
+= Why Choose GoPay? =
+* Trusted by more than 19,000 merchants in the Czech Republic, Slovakia, and beyond.
+* Wide range of modern and local payment methods in one integration.
+* Fully secure and compliant with European standards (PSD2, 3D Secure).
+* Easy setup and administration inside WooCommerce.
+* Local support and documentation in English and Czech.
+
+= Need help? =
+If something doesn't work as expected, please reach out via our [support page](https://wordpress.org/support/plugin/gopay-gateway/) first. We'll do our best to resolve your issue.
 
 = Plugin functions: =
 * 56 payment methods including Google Pay, Apple Pay, Click to Pay and PSD2 bank transfers
-* 9 currencies and 13 language localizations
+* 9 currencies and 19 language localizations
 * mobile and desktop payment gateway
 * remember mode on the payment gateway - customer can remember payment card details and pay just by one click
 * payment cancellation
@@ -118,3 +146,30 @@ Fix the error for an undefined GoPay reference that prevents the payment gateway
 
 = 1.0.18 =
 Fix script issue causing appendChild failure on gateway load in some specific WordPress themes.
+
+= 1.0.19 =
+Feature: create admin notifications for user plugin feedback
+
+= 1.0.20 =
+Fix: Block-based checkout issue when using the Local Pickup option; updated readme description text.
+
+= 1.0.21 =
+* This version includes minor fixes and improvements to support the latest WordPress version.
+* Added a fix when using the payment plugin without WooCommerce.
+* Supports WooCommerce version 10.3.4.
+
+= 1.0.22 =
+* This release includes minor fixes, code improvements, and a general refactoring of the plugin.
+* Applied a CSS update to correct the display of payment icons.
+* Added full block-based checkout support for payment methods, based on a contribution by adammaly.
+* Updated the payment handling function for virtual and downloadable products.
+* Added the missing BLIK option within Poland’s bank payment methods.
+* Ensured compatibility with the latest WordPress version 6.9.
+
+= 1.0.23 =
+Build: Update Composer dependency set to latest available versions
+
+= 1.0.24 =
+* Minor adjustment in thank you order hook
+* Plugin version added to the API parameters
+* Supports WooCommerce version 10.4.3
