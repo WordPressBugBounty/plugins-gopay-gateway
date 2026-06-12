@@ -8,7 +8,7 @@
 	overflow: hidden;
 }
 
-.woocommerce #payment .payment_methods.methods label[for="payment_method_wc_gopay_gateway"] img{
+.woocommerce #payment .payment_methods.methods label[for="payment_method_wc_gopay_gateway"] img {
 	height: auto;
 	width: auto;
 	margin-left: auto;
@@ -67,4 +67,145 @@
 
 .wc-gopay-description {
 	margin-bottom: 15px;
+}
+
+.payment_wc_tokenize_container {
+	border-bottom: 1px dashed;
+	padding: 12px;
+}
+
+.payment_card_with_tokenize {
+	display: flex;
+}
+
+.card_selection_container {
+	margin-top: 16px;
+	padding-top: 12px;
+	border-top: 1px solid #f1f5f9;
+}
+
+.payment_wc_store_token {
+	margin-top: 12px;
+	display: flex;
+	align-items: center;
+	gap: 7px;
+}
+
+.payment_wc_store_token label {
+	display: flex;
+	align-items: center;
+	font-size: 14px;
+	color: #374151;
+	cursor: pointer;
+	margin-bottom: 0;
+}
+
+/* Card selection list at checkout */
+.gopay-card-list {
+  margin: 15px 0;
+  padding: 15px;
+  background: #fdfdfd;
+  border: 1px solid #e1e1e1;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.gopay-card-list__title {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 12px;
+  color: #2c3338;
+}
+
+.gopay-card-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.gopay-card-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border: 2px solid #eee;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gopay-card-option:hover {
+  border-color: #d1d1d1;
+  background: #fafafa;
+  transform: translateY(-1px);
+}
+
+.gopay-card-option input[type="radio"] {
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+  accent-color: initial;
+}
+
+/* Highlight the whole card when the radio is checked */
+.gopay-card-option:has(input[type="radio"]:checked) {
+  border-color: #1a1a1a;
+  background: #f8f8f8;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.gopay-card-option__content {
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 12px;
+  min-width: 0;
+}
+
+.gopay-card-option__art {
+  height: 28px;
+  width: 40px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.gopay-card-option__details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.gopay-card-option__brand {
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.gopay-card-option__number {
+  color: #666;
+  font-family: monospace;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.gopay-card-option__expiry {
+  color: #888;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }

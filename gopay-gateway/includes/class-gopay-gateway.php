@@ -47,9 +47,11 @@ function init_gopay_gateway_gateway() {
         private $simplified_bank_selection;
         private $payment_retry;
         private $enable_countries;
+        private $virtual_products_skip_country;
         private $enable_gopay_payment_methods;
         private $enable_banks;
         private $enable_shipping_methods;
+		private $card_token;
 
 		/**
 		 * Constructor for the gateway
@@ -85,12 +87,14 @@ function init_gopay_gateway_gateway() {
 			$this->test          = ! $this->get_option( 'test' );
 			$this->instructions  = $this->get_option( 'instructions' );
 
-			$this->simplified_bank_selection    = $this->get_option( 'simplified_bank_selection' ) === 'yes';
-			$this->payment_retry                = $this->get_option( 'payment_retry' ) === 'yes';
-			$this->enable_countries             = $this->get_option( 'enable_countries', array() );
-			$this->enable_gopay_payment_methods = $this->get_option( 'enable_gopay_payment_methods', array() );
-			$this->enable_banks                 = $this->get_option( 'enable_banks', array() );
-			$this->enable_shipping_methods      = $this->get_option( 'enable_shipping_methods', array() );
+			$this->simplified_bank_selection     = $this->get_option( 'simplified_bank_selection' ) === 'yes';
+			$this->payment_retry                 = $this->get_option( 'payment_retry' ) === 'yes';
+			$this->enable_countries              = $this->get_option( 'enable_countries', array() );
+			$this->virtual_products_skip_country = $this->get_option( 'virtual_products_skip_country' ) === 'yes';
+			$this->enable_gopay_payment_methods  = $this->get_option( 'enable_gopay_payment_methods', array() );
+			$this->enable_banks                  = $this->get_option( 'enable_banks', array() );
+			$this->enable_shipping_methods       = $this->get_option( 'enable_shipping_methods', array() );
+			$this->card_token                    = $this->get_option( 'card_token' ) === 'yes';
 
 			$this->supports = array(
 				'subscriptions',
@@ -108,6 +112,7 @@ function init_gopay_gateway_gateway() {
 			add_action( 'admin_init', array( $this, 'update_payment_methods' ), 1 );
 			add_action( 'update_payment_methods_and_banks', array( $this, 'check_enabled_on_gopay' ), 1 );
 			add_action( 'template_redirect', array( $this, 'check_status_gopay_redirect' ) );
+			add_action( 'template_redirect', array( $this, 'check_payment_cards_access' ) );
 			add_action( 'woocommerce_create_refund', array( $this, 'calculate_refund_amount' ), 10, 2 );
 			add_action(
 				'woocommerce_update_options_payment_gateways_' . $this->id,
@@ -122,6 +127,8 @@ function init_gopay_gateway_gateway() {
 			add_action( 'delete_user', array( $this, 'delete_user_logs' ), 10 );
 			add_action( 'after_delete_post', array( $this, 'delete_order_logs' ), 10, 1 );
 			add_action( 'woocommerce_thankyou', array( $this, 'thankyou_order_failed_text' ), 10, 1 );
+			// AJAX callback
+			add_action( 'wp_ajax_gopay_delete_card', [$this, 'delete_card_callback'] );
 
 			add_filter(
 				'woocommerce_thankyou_order_received_text',
@@ -129,6 +136,8 @@ function init_gopay_gateway_gateway() {
 				20,
 				2
 			);
+
+			add_filter('woocommerce_account_menu_items', array( $this, 'gopay_add_payment_cards_tab' ));
 
 			// Load Woocommerce GoPay gateway admin page.
 			if ( is_admin() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
@@ -504,6 +513,20 @@ function init_gopay_gateway_gateway() {
 						'css'         => 'width: 500px; min-height: 50px;',
 						'placeholder' => __( 'Select Available Countries...', 'gopay-gateway' ),
 					),
+					'virtual_products_skip_country'  => array(
+						'title'       => __( 'Skip Country Restriction', 'gopay-gateway' ),
+						'type'        => 'checkbox',
+						'label'       => __(
+							'Skip the country restriction for virtual downloadable products.',
+							'gopay-gateway'
+						),
+						'default'     => 'no',
+						'description' => __(
+							'When enabled, the country restriction is ignored if all products in the cart are both virtual and downloadable.',
+							'gopay-gateway'
+						),
+						'desc_tip'    => true,
+					),
 					'simplified_bank_selection'        => array(
 						'title'       => __( 'Bank Selection', 'gopay-gateway' ),
 						'type'        => 'checkbox',
@@ -564,6 +587,19 @@ function init_gopay_gateway_gateway() {
 							'gopay-gateway'
 						),
 						'desc_tip'    => true,
+					),
+					'card_token'                    => array(
+						'title'       => __( 'Pay with a saved card', 'gopay-gateway' ),
+						'type'        => 'checkbox',
+						'label' 	  => __( 'Enable customers to save payment cards', 'gopay-gateway' ) . '<br>' .
+							'<div class="gopay-setting-warning">' .
+							'<span class="dashicons dashicons-warning"></span>' .
+							__( 'Enable this option only if card saving / tokenization is active for your GoPay merchant account.', 'gopay-gateway' ) . '</div>' .
+							'<div class="gopay-setting-warning">' .
+							__( 'If your account does not support this feature, checkout may fail and payments may become unavailable.', 'gopay-gateway' ) . '</div>',
+						'description' => __( 'When a customer pays by card, you can offer to save the card. In that case, a card token will be generated and can be used for future payments. If used, the customer will not have to enter the card details manually again.', 'gopay-gateway' ),
+						'desc_tip'    => true,
+						'default'  => 'no',
 					),
 				);
 			}
@@ -629,14 +665,37 @@ function init_gopay_gateway_gateway() {
 			// end Inline.
 
 			if ( ! empty( WC()->customer ) ) {
+				// Check if all products are virtual and/or downloadable.
+				$all_virtual_downloadable = true;
+				$all_virtual              = true;
+
+				foreach ( WC()->cart->get_cart() as $item ) {
+					$product = $item['data'];
+					if ( ! $product->is_virtual() ) {
+						$all_virtual = false;
+					}
+					if ( ! $product->is_virtual() || ! $product->is_downloadable() ) {
+						$all_virtual_downloadable = false;
+					}
+
+					if ( ! $all_virtual && ! $all_virtual_downloadable ) {
+						break;
+					}
+				}
+				// end check virtual or downloadable.
+
 				// Check countries.
 				$billing_country = WC()
 					->cart->get_customer()
 					->get_billing_country();
 
-				if ( empty( $this->enable_countries ) || empty( $billing_country ) ||
-					! in_array( $billing_country, (array) $this->enable_countries, true ) ) {
-					return false;
+				$skip_country_check = $this->virtual_products_skip_country && $all_virtual_downloadable;
+
+				if ( ! $skip_country_check ) {
+					if ( empty( $this->enable_countries ) || empty( $billing_country ) ||
+						! in_array( $billing_country, (array) $this->enable_countries, true ) ) {
+						return false;
+					}
 				}
 				// end check countries.
 
@@ -649,28 +708,9 @@ function init_gopay_gateway_gateway() {
 				}
 				// end check currency.
 
-				// Check if all products are virtual and/or downloadable.
-				$all_virtual_downloadable = true;
-				$all_virtual = true;
-
-				foreach ( WC()->cart->get_cart() as $item ) {
-					$product = $item["data"];
-					if ( ! $product->is_virtual() ) {
-						$all_virtual = false;
-					}
-					if ( ! $product->is_virtual() || ! $product->is_downloadable() ) {
-						$all_virtual_downloadable = false;
-					}
-					
-					if ( !$all_virtual && !$all_virtual_downloadable ) {
-						break;
-					}
-				}
-
 				if ( $all_virtual_downloadable || $all_virtual ) {
 					return parent::is_available();
 				}
-				// end check virtual or downloadable.
 
 				// Check shipping methods.
 				if ( is_page( wc_get_page_id( 'checkout' ) ) &&
@@ -786,7 +826,7 @@ function init_gopay_gateway_gateway() {
 						'_input" name="gopay_payment_method" type="radio" id="%s" value="%s" %s />
 					    <span>%s</span>
 					</div>
-					<img src="%s" alt="ico" style="max-height: 60px; height: auto; width: auto; margin-left: auto;"/>
+					<img src="%s" alt="ico" style="max-height: 60px; height: fit-content; width: auto; margin-left: auto;"/>
 					</div>';
 
 				foreach ( $payment_methods as $payment_method => $payment_method_label_image ) {
@@ -814,6 +854,99 @@ function init_gopay_gateway_gateway() {
 					$span = __( $payment_method_label_image['label'], 'gopay-gateway' );
 					$img  = array_key_exists( 'image', $payment_method_label_image ) ?
 						$payment_method_label_image['image'] : '';
+
+					// Add tokenize section
+					if ( 'PAYMENT_CARD' === $payment_method ) {
+						if ( $this->card_token && is_user_logged_in() ) {
+							$saved_cards    = Gopay_Gateway_API::get_card_details();
+							$checkout_cards = array_filter( $saved_cards, function( $c ) {
+								return ( $c['status'] ?? 'ACTIVE' ) === 'ACTIVE';
+							} );
+
+							$enabled_payment_methods .= '
+								<div class="payment_wc_tokenize_container" name="' . esc_attr( $payment_method ) . '">
+								<div class="payment_card_with_tokenize">
+									<input
+										class="payment_method_' . GOPAY_GATEWAY_ID . '_input"
+										name="gopay_payment_method"
+										type="radio"
+										id="' . esc_attr( $payment_method ) . '"
+										value="' . esc_attr( $payment_method ) . '"
+										' . $checked . '
+									/>
+									<span>' . esc_html__( 'Payment card', 'gopay-gateway' ) . '</span>
+									<img src="' . esc_url( $img ) . '" alt="ico" style="max-height: 60px; height: auto; width: auto; margin-left: auto;" />
+								</div>';
+
+							$enabled_payment_methods .= '
+								<div class="card_selection_container" id="card_selection_container">';
+
+							if ( ! empty( $checkout_cards ) ) {
+								$enabled_payment_methods .= '
+									<div class="gopay-card-list" id="gopay-card-list">
+										<div class="gopay-card-list__title">
+											' . esc_html__( 'Select payment card', 'gopay-gateway' ) . '
+										</div>
+										<div class="gopay-card-options">';
+
+								$is_first_card = true;
+								foreach ( $checkout_cards as $card ) {
+									$card_art = ! empty( $card['card_art_url'] )
+										? '<img src="' . esc_url( $card['card_art_url'] ) . '" class="gopay-card-option__art" />'
+										: '';
+
+									$enabled_payment_methods .= sprintf(
+										'<label class="gopay-card-option" style="margin-bottom: 0px">
+											<input type="radio" name="saved_card" value="%s"%s />
+											<div class="gopay-card-option__content">
+												%s
+												<div class="gopay-card-option__details">
+													<span class="gopay-card-option__brand">%s</span>
+													<span class="gopay-card-option__number">%s</span>
+													<span class="gopay-card-option__expiry">(exp %s)</span>
+												</div>
+											</div>
+										</label>',
+										esc_attr( $card['card_id'] ),
+										$is_first_card ? ' checked' : '',
+										$card_art,
+										esc_html( $card['card_brand'] ),
+										esc_html( $card['real_masked_pan'] ),
+										esc_html( $card['card_expiration'] )
+									);
+									$is_first_card = false;
+								}
+
+								// New Card Option
+								$enabled_payment_methods .= '
+											<label class="gopay-card-option is-new">
+												<input type="radio" name="saved_card" value="new" />
+												<div class="gopay-card-option__content">
+													<div class="gopay-card-option__details">
+														<span class="gopay-card-option__brand">' . esc_html__( 'New Card', 'gopay-gateway' ) . '</span>
+													</div>
+												</div>
+											</label>';
+
+								$enabled_payment_methods .= '
+										</div>
+									</div>';
+							}
+
+							$enabled_payment_methods .= '
+									<div class="payment_wc_store_token" id="payment_wc_store_token">
+										<input type="checkbox" id="request_card_token" name="request_card_token" value="1" />
+										<label for="request_card_token">'. esc_html__( 'Save this payment card to my account for future purchases.', 'gopay-gateway' ) . '</label>
+									</div>
+								</div>
+
+							</div>
+							';
+
+							$checked = '';
+							continue;
+						}
+					}
 
 					$enabled_payment_methods .= sprintf(
 						$input,
@@ -844,9 +977,18 @@ function init_gopay_gateway_gateway() {
 			</script>
 			<?php
 
-			echo wp_kses( $enabled_payment_methods, array( 'div' => array( 'class' => 1, 'name' => 1 ),
-                'input' => array( 'class' => 1, 'name' => 1, 'type' => 1, 'id' => 1, 'value' => 1, 'checked' => 1 ),
-                'span' => array(), 'img' => array( 'src' => 1, 'alt' => 1, 'style' => 1 ) ) );
+			echo wp_kses(
+				$enabled_payment_methods,
+				array(
+					'div'    => array( 'id' => true, 'class' => true, 'name' => true, 'style' => true ),
+					'input'  => array( 'class' => true, 'name' => true, 'type' => true, 'id' => true, 'value' => true, 'checked' => true ),
+					'span'   => array( 'class' => true ),
+					'img'    => array( 'src' => true, 'alt' => true, 'style' => true, 'class' => true ),
+					'label'  => array( 'for' => true, 'class' => true, 'style' => true ),
+					'select' => array( 'id' => true, 'name' => true, 'class' => true, 'style' => true ),
+					'option' => array( 'value' => true, 'selected' => true, 'data-card-art' => true ),
+				)
+			);
 		}
 
 		/**
@@ -899,6 +1041,9 @@ function init_gopay_gateway_gateway() {
 										is_page( wc_get_page_id( 'checkout' ) ) &&
 										! empty( get_query_var( 'order-pay' ) );
 
+			$request_card_token = filter_input( INPUT_POST, 'request_card_token' ) ?? false;
+			$card_id = filter_input( INPUT_POST, 'saved_card' ) ?? '';
+
 			// Add GoPay payment method to order.
 			if ( $gopay_payment_method ) {
 				if ( array_key_exists( $gopay_payment_method, Gopay_Gateway_Options::supported_banks() ) ) {
@@ -920,11 +1065,21 @@ function init_gopay_gateway_gateway() {
 				$gopay_payment_method = sanitize_text_field($_REQUEST['payment_data']['gopay_payment_method']);
 			}
 
+			if (isset($_POST['saved_card'])) {
+				$card_id = sanitize_text_field($_POST['saved_card']);
+			}
+
+			if (isset($_POST['request_card_token'])) {
+				$request_card_token = sanitize_text_field($_POST['request_card_token']);
+			}
+
 			$response = Gopay_Gateway_API::create_payment(
 				$gopay_payment_method,
 				$order,
 				! empty( $subscription ) ? $subscription->get_date( 'end' ) : '',
-				$is_retry
+				$is_retry,
+				$request_card_token,
+				$card_id
 			);
 
 			if ( 200 != $response->statusCode ) {
@@ -1244,7 +1399,16 @@ function init_gopay_gateway_gateway() {
 		public function enqueue_styles() {
 			wp_enqueue_style(
 				'gopay-gateway-payment-methods-styles',
-				GOPAY_GATEWAY_URL . 'includes/assets/css/payment_methods.css'
+				GOPAY_GATEWAY_URL . 'includes/assets/css/payment_methods.css',
+				array(),
+				'1.0.0'
+			);
+
+			wp_enqueue_style(
+				'gopay-gateway-payment-cards-style',
+				GOPAY_GATEWAY_URL . 'includes/assets/css/payment_cards.css',
+				array(),
+				'1.0.0'
 			);
 		}
 
@@ -1256,7 +1420,9 @@ function init_gopay_gateway_gateway() {
 		public function admin_enqueue_styles() {
 			wp_enqueue_style(
 				'gopay-gateway-payment-methods-styles',
-				GOPAY_GATEWAY_URL . 'includes/assets/css/form_fields.css'
+				GOPAY_GATEWAY_URL . 'includes/assets/css/form_fields.css',
+				array(),
+				'1.0.0'
 			);
 		}
 
@@ -1276,6 +1442,34 @@ function init_gopay_gateway_gateway() {
 				wp_enqueue_script(
 					'gopay-gateway-inline-scripts',
 					'https://gate.gopay.cz/gp-gw/js/embed.js'
+				);
+			}
+
+			if ( is_checkout() ) {
+				wp_enqueue_script(
+					'gopay-checkout-js',
+					plugin_dir_url( __FILE__ ) . 'assets/js/gopay-checkout.js',
+					[ 'jquery' ],
+					'1.0.0',
+					true
+				);
+			}
+
+			if (is_account_page()) {
+				wp_enqueue_script(
+					'gopay-account-js',
+					plugin_dir_url( __FILE__ ) . 'assets/js/account.js',
+					[ 'jquery' ],
+					'1.0.0',
+					true
+				);
+
+				wp_localize_script(
+					'gopay-account-js',
+					'GoPayCardsAjax',
+					[
+						'ajaxurl' => admin_url('admin-ajax.php')
+					]
 				);
 			}
 		}
@@ -1317,6 +1511,69 @@ function init_gopay_gateway_gateway() {
 				$order_id
 			);
 		}
+
+		public function delete_card_callback() {
+			$card_id = $_POST['card_id'] ?? null;
+			$nonce   = $_POST['nonce'] ?? '';
+
+			if (!wp_verify_nonce($nonce, 'gopay_delete_card')) {
+				wp_send_json_error(['message' => 'Invalid nonce']);
+			}
+
+			// Delete from GoPay
+			$response = Gopay_Gateway_API::delete_payment_card($card_id);
+
+			if ( ! $response ) {
+				wp_send_json_error(['message' => 'Failed to connect to GoPay. Please try again.']);
+			}
+
+			// GoPay SDK Response status 2xx or 404
+			$is_success = floor($response->statusCode / 100) == 2 || $response->statusCode == 404;
+
+			if ( $is_success ) {
+				$deleted_from_db = Gopay_Gateway_Log::delete_customer_card(get_current_user_id(), $card_id);
+
+				if ( ! $deleted_from_db ) {
+					wp_send_json_error(['message' => 'Card deleted from GoPay, but database update failed.']);
+				}
+
+				wp_send_json_success(['card_id' => $card_id]);
+			} else {
+				$error_msg = $response->json['errors'][0]['message'] ?? 'Failed to delete card from GoPay.';
+				wp_send_json_error(['message' => $error_msg]);
+			}
+		}
+
+		public function check_payment_cards_access() {
+			if ( ! $this->card_token && is_account_page() ) {
+				global $wp_query;
+				if ( isset( $wp_query->query_vars['payment-cards'] ) ) {
+					$wp_query->set_404();
+					status_header( 404 );
+					nocache_headers();
+					include get_query_template( '404' );
+					exit;
+				}
+			}
+		}
+
+		function gopay_add_payment_cards_tab($items) {
+			if ( ! $this->card_token ) {
+				return $items;
+			}
+
+			$new_items = array();
+
+			foreach ($items as $key => $label) {
+				$new_items[$key] = $label;
+
+				if ($key === 'dashboard') {
+					$new_items['payment-cards'] = __('Payment cards', 'gopay-gateway');
+				}
+			}
+
+			return $new_items;
+		}
 	}
 
 	/**
@@ -1332,4 +1589,80 @@ function init_gopay_gateway_gateway() {
 	}
 
 	add_filter( 'woocommerce_payment_gateways', 'add_gopay_gateway' );
+
+	function gopay_payment_cards_content() {
+		echo '<h3>'.esc_html__('Saved payment cards', 'gopay-gateway').'</h3>';
+		echo '<p>'.esc_html__('Here are your saved cards:', 'gopay-gateway').'</p>';
+
+		$saved_cards = Gopay_Gateway_API::get_card_details();
+
+		// Nonce for security
+		$nonce = wp_create_nonce('gopay_delete_card');
+
+		echo '<table class="gopay-cards-table">';
+		echo '<thead>';
+		echo '<tr>';
+		echo '<th>'.esc_html__('Brand', 'gopay-gateway').'</th>';
+		echo '<th>'.esc_html__('Card number', 'gopay-gateway').'</th>';
+		echo '<th>'.esc_html__('Expiry', 'gopay-gateway').'</th>';
+		echo '<th>'.esc_html__('Action', 'gopay-gateway').'</th>';
+		echo '</tr>';
+		echo '</thead>';
+		echo '<tbody>';
+
+		foreach ($saved_cards as $card) {
+			$is_suspended = ( $card['status'] ?? 'ACTIVE' ) === 'SUSPENDED';
+
+			echo '<tr id="gopay-card-row-' . esc_attr($card['card_id']) . '"' . ( $is_suspended ? ' class="gopay-card-row--suspended"' : '' ) . '>';
+			echo '<td data-label="Brand">';
+			if ( ! empty( $card['card_art_url'] ) ) {
+				echo '<img src="' . esc_url( $card['card_art_url'] ) . '" alt="' . esc_attr( $card['card_brand'] ) . '" class="gopay-card-art' . ( $is_suspended ? ' gopay-card-art--suspended' : '' ) . '" />';
+			} else {
+				echo esc_html( $card['card_brand'] );
+			}
+			if ( $is_suspended ) {
+				echo '<span class="gopay-suspended-badge" aria-label="' . esc_attr__( 'This card has been suspended by your bank. You cannot pay with it, but you can delete it.', 'gopay-gateway' ) . '">'
+					. esc_html__( 'Suspended', 'gopay-gateway' )
+					. '</span>';
+			}
+			echo '</td>';
+			$short_pan = '****...' . substr( $card['real_masked_pan'], -4 );
+			echo '<td data-label="Card number">
+				<div class="gopay-card-number">
+					<span class="gopay-masked-pan" data-short="' . esc_attr( $short_pan ) . '">'
+						. esc_html($card['real_masked_pan']) .
+					'</span>
+				</div>
+			</td>';
+			echo '<td data-label="Expiry">' . esc_html($card['card_expiration']) . '</td>';
+			echo '<td data-label="Actions">';
+
+			echo '<div id="gopay-delete-wrapper" class="gopay-delete-wrapper">';
+
+			echo '<button id="gopay-delete-card" class="gopay-delete-card"
+					data-card-id="' . esc_attr($card['card_id']) . '"
+					data-nonce="' . esc_attr($nonce) . '">
+					'.esc_html__('Delete', 'gopay-gateway').'
+				</button>';
+
+			echo '<div id="gopay-delete-confirm" class="gopay-delete-confirm" style="display:none;">
+					<span>'.esc_html__('Are you sure?', 'gopay-gateway').'</span>
+					<div>
+						<button id="gopay-confirm-yes" class="gopay-confirm-yes"
+							data-card-id="' . esc_attr($card['card_id']) . '"
+							data-nonce="' . esc_attr($nonce) . '">'.esc_html__('OK', 'gopay-gateway').'</button>
+						<button id="gopay-confirm-cancel" class="gopay-confirm-cancel">'.esc_html__('Cancel', 'gopay-gateway').'</button>
+					</div>
+				</div>';
+
+			echo '</div>';
+			echo '</td>';
+			echo '</tr>';
+		}
+
+		echo '</tbody>';
+		echo '</table>';
+	}
+
+	add_action( 'woocommerce_account_payment-cards_endpoint', 'gopay_payment_cards_content' );
 }

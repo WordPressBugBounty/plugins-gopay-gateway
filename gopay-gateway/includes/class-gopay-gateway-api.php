@@ -100,7 +100,7 @@ class Gopay_Gateway_API {
 	 * @since 1.0.0
 	 */
 	public static function create_payment( ?string $gopay_payment_method, WC_Order $order,
-									string $end_date, $is_retry ): Response {
+									string $end_date, $is_retry, bool $request_card_token, string $card_id ): Response {
 		$options = get_option( 'woocommerce_' . GOPAY_GATEWAY_ID . '_settings' );
 		$gopay   = self::auth_gopay( $options );
 
@@ -160,6 +160,27 @@ class Gopay_Gateway_API {
 				'allowed_swifts'              => ! empty( $options['enable_banks'] ) ? $options['enable_banks'] : array(),
 				'contact'                     => $contact,
 			);
+
+			// If card tokenization is requested
+			if ( isset( $request_card_token ) && true === $request_card_token ) {
+				$payer['request_card_token'] = true;
+			}
+
+			// Pay with already saved card
+			if ( ! empty( $card_id ) && $card_id !== 'new' ) {
+				$enabled_methods = $options['enable_gopay_payment_methods'] ?? array();
+
+				if ( is_array( $enabled_methods ) && in_array( 'PAYMENT_CARD', $enabled_methods, true ) ) {
+
+					$card_details = $gopay->getCardDetails($card_id);
+
+					if ( isset( $card_details->statusCode ) && $card_details->statusCode == 200
+					&& ( $card_details->json['status'] ?? 'ACTIVE' ) === 'ACTIVE' ) {
+						$payer['allowed_payment_instruments'] = ["PAYMENT_CARD"];
+						$payer['allowed_card_token'] = $card_details->json['card_token'];
+					}
+				}
+			}
 
 			if ( ! empty( $default_swift ) ) {
 				$payer['default_swift'] = $default_swift;
@@ -419,6 +440,18 @@ class Gopay_Gateway_API {
 				$order->save();
 				wp_safe_redirect( $order->get_checkout_order_received_url() );
 
+				$card_id = $response->json['payer']['card_id'] ?? null;
+
+				if ( $card_id ) {
+					// Fetch card details
+					$card_details = $gopay->getCardDetails($card_id);
+
+					if ( isset($card_details->statusCode) && $card_details->statusCode == 200 ) {
+						$user_id = $order->get_user_id();
+						Gopay_Gateway_Log::insert_saved_card($user_id,$card_id);
+					}
+				}
+
 				break;
 			case 'PAYMENT_METHOD_CHOSEN':
 			case 'AUTHORIZED':
@@ -474,5 +507,82 @@ class Gopay_Gateway_API {
 		$response = $gopay->refundPayment( $transaction_id, $amount );
 
 		return $response;
+	}
+
+	public static function get_card_details() {
+		global $wpdb;
+
+		// Check if user is logged in
+		if ( ! is_user_logged_in() ) {
+			return array();
+		}
+
+		$table_name = $wpdb->prefix . GOPAY_GATEWAY_TABLE_CARDS;
+
+		// Authenticate GoPay
+		$options  = get_option( 'woocommerce_' . GOPAY_GATEWAY_ID . '_settings' );
+		$gopay    = self::auth_gopay( $options );
+
+		$user_id = get_current_user_id();
+
+		// Get saved cards for current user
+		$cards = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT id, card_id FROM {$table_name} WHERE user_id = %d ORDER BY created_at DESC",
+				$user_id
+			)
+		);
+
+		if ( empty($cards) ) {
+			return array();
+		}
+
+		$results = array();
+
+		foreach ( $cards as $card ) {
+			try {
+				$card_details = $gopay->getCardDetails( $card->card_id );
+
+				if ( isset( $card_details->statusCode ) && $card_details->statusCode == 200 ) {
+					$card_status = $card_details->json['status'] ?? 'ACTIVE';
+
+					if ( $card_status === 'DELETED' ) {
+						Gopay_Gateway_Log::delete_customer_card( $user_id, $card->card_id );
+						continue;
+					}
+
+					$card_exp_raw    = $card_details->json['card_expiration'] ?? '';
+
+					// Trim whitespace from expiration
+					$card_expiration = str_replace(' ', '', $card_exp_raw);
+
+					$results[] = array(
+						'id'              => $card->id,
+						'card_id'         => $card->card_id,
+						'status'          => $card_status,
+						'real_masked_pan' => $card_details->json['real_masked_pan'] ?? '',
+						'card_brand'      => $card_details->json['card_brand'] ?? '',
+						'card_expiration' => $card_expiration,
+						'card_art_url'    => $card_details->json['card_art_url'] ?? '',
+					);
+				}
+
+			} catch ( Exception $e ) {
+				return array();
+			}
+		}
+
+		return $results;
+	}
+
+	public static function delete_payment_card($card_id) {
+		$options  = get_option( 'woocommerce_' . GOPAY_GATEWAY_ID . '_settings' );
+		$gopay    = self::auth_gopay( $options );
+
+		try {
+			return $gopay->deleteCard( $card_id );
+		} catch (Exception $e) {
+			return null;
+		}
 	}
 }

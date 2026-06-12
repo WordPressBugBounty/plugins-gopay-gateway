@@ -10,7 +10,7 @@
  * Plugin Name:          GoPay gateway
  * Plugin URI:           https://github.com/argo22packages/gopay-woocommerce-integration
  * Description:          WooCommerce and GoPay payment gateway integration
- * Version:              1.0.28
+ * Version:              1.0.29
  * Author:               GoPay
  * Author URI:           https://www.gopay.com/
  * Text Domain:          gopay-gateway
@@ -18,7 +18,7 @@
  * License URI:          https://www.gnu.org/licenses/gpl-2.0.html
  * Domain Path:          /languages
  * WC requires at least: 7.0.0
- * WC tested up to:      10.5.0
+ * WC tested up to:      10.8.1
  * Requires Plugins:     woocommerce
  */
 
@@ -32,7 +32,7 @@ if (!defined('WPINC')) {
  * Plugin version.
  * Rename this and update it as you release new versions.
  */
-define( 'GOPAY_WOOCOMMERCE_VERSION', '1.0.28' );
+define( 'GOPAY_WOOCOMMERCE_VERSION', '1.0.29' );
 
 /**
  * Constants.
@@ -45,6 +45,7 @@ define('GOPAY_GATEWAY_DIR', plugin_dir_path(__FILE__));
 define('GOPAY_GATEWAY_BASENAME', plugin_basename(__FILE__));
 define('GOPAY_GATEWAY_BASENAME_DIR', dirname(plugin_basename(__FILE__)));
 define('GOPAY_GATEWAY_LOG_TABLE_NAME', 'gopay_gateway_log');
+define('GOPAY_GATEWAY_TABLE_CARDS', 'gopay_gateway_payment_cards');
 
 // Check requirements.
 require GOPAY_GATEWAY_DIR .
@@ -116,6 +117,22 @@ add_action( 'admin_notices', 'gopay_review_banner' );
 add_action( 'after_plugin_row_gopay-woocommerce-integration/gopay-gateway.php', 'gopay_plugin_row_notice', 10, 2 );
 
 add_action( 'admin_init', 'gopay_handle_review_dismiss' );
+
+// Register endpoint
+add_action('init', 'gopay_register_endpoint');
+function gopay_register_endpoint() {
+    add_rewrite_endpoint('payment-cards', EP_ROOT | EP_PAGES);
+}
+
+add_action('init', 'gopay_flush_rewrites', 20);
+function gopay_flush_rewrites() {
+    if (!get_option('gopay_rewrite_flushed')) {
+        flush_rewrite_rules();
+        update_option('gopay_rewrite_flushed', 1);
+    }
+}
+
+add_action('init', ['Gopay_Gateway_Log', 'update_database']);
 
 function gopay_get_review_data() {
 	$defaults = [

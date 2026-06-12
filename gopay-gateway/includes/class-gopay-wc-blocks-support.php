@@ -38,9 +38,16 @@ final class WC_Gopay_Blocks_Support extends AbstractPaymentMethodType {
 			true
 		);
 
-		wp_set_script_translations(
+		wp_localize_script(
 			'wc-gopay-blocks-integration',
-			'gopay-gateway'
+			'gopayI18n',
+			[
+				'selectPaymentMethod' => __( 'Select GoPay Payment Methods...', 'gopay-gateway' ),
+				'selectPaymentCard'   => __( 'Select payment card', 'gopay-gateway' ),
+				'newCard'             => __( 'New Card', 'gopay-gateway' ),
+				'saveCard'            => __( 'Save this payment card to my account for future purchases.', 'gopay-gateway' ),
+				'gopay'               => __( 'GoPay', 'gopay-gateway' ),
+			]
 		);
 
 		return [ 'wc-gopay-blocks-integration' ];
@@ -53,6 +60,12 @@ final class WC_Gopay_Blocks_Support extends AbstractPaymentMethodType {
 	 */
 	public function get_payment_method_data(){
 		$payment_methods_output = [];
+
+		// Get users stored cards from API
+		$saved_cards    = Gopay_Gateway_API::get_card_details();
+		$checkout_cards = array_values( array_filter( $saved_cards, function( $c ) {
+			return ( $c['status'] ?? 'ACTIVE' ) === 'ACTIVE';
+		} ) );
 
 		// Only supported by the currency.
 		$supported_payment_methods = $this->gateway->get_option(
@@ -117,6 +130,8 @@ final class WC_Gopay_Blocks_Support extends AbstractPaymentMethodType {
 			'description' => $this->get_setting('description'),
 			'supports' => $this->get_supported_features(),
 			'paymentMethods' => $payment_methods_output,
+			'savedCards' => $checkout_cards,
+			'isTokenizeEnabled' => is_user_logged_in() && $this->gateway->get_option( 'card_token' ) === 'yes',
 		];
 	}
 }
