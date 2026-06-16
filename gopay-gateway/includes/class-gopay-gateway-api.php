@@ -224,7 +224,7 @@ class Gopay_Gateway_API {
 		if ( ! empty( $end_date ) ) {
 			$data['recurrence'] = array(
 				'recurrence_cycle'   => 'ON_DEMAND',
-				'recurrence_date_to' => 0 != $end_date ? $end_date : gmdate( 'Y-m-d', strtotime( '+5 years' ) ),
+				'recurrence_date_to' => $end_date,
 			);
 		}
 
@@ -461,6 +461,19 @@ class Gopay_Gateway_API {
 			case 'CREATED':
 			case 'TIMEOUTED':
 			case 'CANCELED':
+				// Skip if the order has already been paid (e.g. customer switched
+				// payment method to a bank transfer after abandoning the card payment).
+				// Without this check, a late TIMEOUTED notification from GoPay would
+				// overwrite a paid order back to "failed".
+				if ( $order->is_paid() ) {
+					$order->add_order_note( sprintf(
+					/* translators: %s: GoPay payment state (e.g. TIMEOUTED). */
+						__( 'GoPay returned state "%s", but the order is already paid - status change skipped.', 'gopay-gateway' ),
+						$response->json['state']
+					) );
+					wp_safe_redirect( $order->get_checkout_order_received_url() );
+					exit;
+				}
 				$order->set_status( 'failed' );
 				$order->save();
 				wp_safe_redirect( $order->get_checkout_order_received_url() );
