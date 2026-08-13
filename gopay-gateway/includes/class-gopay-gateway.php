@@ -731,18 +731,19 @@ function init_gopay_gateway_gateway() {
 						}
 					}
 				} else {
-					$rate_to_method = array();
-					foreach ( WC()->shipping()->get_packages() as $package ) {
-						foreach ( $package['rates'] ?? array() as $rate_id => $rate ) {
-							$rate_to_method[ $rate_id ] = $rate->get_method_id();
-						}
-					}
+					$chosen_rates   = (array) WC()->session->get( 'chosen_shipping_methods' );
+					$rate_to_method = $this->get_shipping_rate_method_map( array_keys( $chosen_rates ) );
 
 					$chosen_shipping_methods = array();
-					foreach ( (array) WC()->session->get( 'chosen_shipping_methods' ) as $key => $value ) {
-						if ( ! is_null( $value ) && isset( $rate_to_method[ $value ] ) ) {
-							$chosen_shipping_methods[ $key ] = $this->resolve_shipping_method_id( $rate_to_method[ $value ] );
+					foreach ( $chosen_rates as $key => $value ) {
+						if ( ! is_string( $value ) || '' === $value ) {
+							continue;
 						}
+
+						// Fallback to rate ID prefix when the rate is not among the known.
+						$method_id = $rate_to_method[ $value ] ?? current( explode( ':', $value ) );
+
+						$chosen_shipping_methods[ $key ] = $this->resolve_shipping_method_id( $method_id );
 					}
 
 					if ( empty( $chosen_shipping_methods ) ||
@@ -755,6 +756,42 @@ function init_gopay_gateway_gateway() {
 			}
 
 			return parent::is_available();
+		}
+
+		/**
+		 * Map shipping rate IDs to the class ID of the shipping method that created them.
+		 *
+		 * @param array $package_keys Package keys to read the cached rates for.
+		 * @return array<string, string> Rate ID => shipping method class ID.
+		 */
+		private function get_shipping_rate_method_map( array $package_keys ): array {
+			$rate_to_method = array();
+
+			foreach ( WC()->shipping()->get_packages() as $package ) {
+				foreach ( $package['rates'] ?? array() as $rate_id => $rate ) {
+					$rate_to_method[ $rate_id ] = $rate->get_method_id();
+				}
+			}
+
+			if ( ! empty( $rate_to_method ) || empty( WC()->session ) ) {
+				return $rate_to_method;
+			}
+
+			foreach ( $package_keys as $package_key ) {
+				$stored_rates = WC()->session->get( 'shipping_for_package_' . $package_key );
+
+				if ( empty( $stored_rates['rates'] ) || ! is_array( $stored_rates['rates'] ) ) {
+					continue;
+				}
+
+				foreach ( $stored_rates['rates'] as $rate_id => $rate ) {
+					if ( $rate instanceof WC_Shipping_Rate ) {
+						$rate_to_method[ $rate_id ] = $rate->get_method_id();
+					}
+				}
+			}
+
+			return $rate_to_method;
 		}
 
 		/**
@@ -1039,135 +1076,188 @@ function init_gopay_gateway_gateway() {
 				);
 			}
 
-			// Check if total is equal to zero.
-			$subscription = Gopay_Gateway_Subscriptions::get_subscription_data( $order );
-			if ( $order->get_total() == 0 ) {
-				if ( empty( $subscription ) ) {
-					foreach ( $order->get_items() as $item ) {
-						$product = wc_get_product( $item['product_id'] );
-						if ( ! $product->is_virtual() && ! $product->is_downloadable() ) {
-							$order->set_status( 'processing' );
-							break;
+			global $wpdb;
+			$lock_name    = 'gopay_pp_' . md5( DB_NAME . '|' . $order_id );
+			$lock_timeout = (int) apply_filters( 'gopay_gateway_payment_lock_timeout', 15 );
+			$lock_held    = ( '1' === (string) $wpdb->get_var(
+				$wpdb->prepare( 'SELECT GET_LOCK(%s, %d)', $lock_name, $lock_timeout )
+			) );
+
+			try {
+				$order->read_meta_data( true );
+
+				// Duplicate-submit guard.
+				$existing_tx_id  = $order->get_meta( 'GoPay_Transaction_id' );
+				$last_created_at = (int) $order->get_meta( '_GoPay_payment_created_at' );
+				$dedupe_window   = (int) apply_filters( 'gopay_gateway_payment_dedupe_window', 30 );
+
+				if ( $existing_tx_id && $last_created_at && ( time() - $last_created_at ) < $dedupe_window ) {
+					$status          = Gopay_Gateway_API::get_status( $order_id );
+					$reusable_states = array( 'CREATED', 'PAYMENT_METHOD_CHOSEN', 'AUTHORIZED' );
+
+					if ( 200 === $status->statusCode
+						&& in_array( $status->json['state'] ?? '', $reusable_states, true )
+						&& ! empty( $status->json['gw_url'] ) ) {
+
+						Gopay_Gateway_Log::insert_log( array(
+							'order_id'       => $order_id,
+							'transaction_id' => $existing_tx_id,
+							'message'        => 'Duplicate process_payment - reusing existing GoPay payment',
+							'log_level'      => 'INFO',
+							'log'            => $status,
+						) );
+
+						$url_args     = array( 'gopay_url' => $status->json['gw_url'] );
+						$redirect_url = wc_get_checkout_url();
+						if ( ! empty( $_GET['pay_for_order'] ) && $_GET['pay_for_order'] === 'true' ) {
+							$url_args     = array_merge( $_GET, $url_args );
+							$redirect_url = wc_get_endpoint_url( 'order-pay' ) . $order_id . '/';
 						}
+
+						return array(
+							'result'   => 'success',
+							'redirect' => htmlspecialchars_decode(
+								wp_nonce_url( add_query_arg( $url_args, $redirect_url ), 'gw_url' )
+							),
+						);
 					}
+				}
 
-					if ( $order->get_status() != 'processing' ) {
-						$order->set_status( 'completed' );
+				// Check if total is equal to zero.
+				$subscription = Gopay_Gateway_Subscriptions::get_subscription_data( $order );
+				if ( $order->get_total() == 0 ) {
+					if ( empty( $subscription ) ) {
+						foreach ( $order->get_items() as $item ) {
+							$product = wc_get_product( $item['product_id'] );
+							if ( ! $product->is_virtual() && ! $product->is_downloadable() ) {
+								$order->set_status( 'processing' );
+								break;
+							}
+						}
+
+						if ( $order->get_status() != 'processing' ) {
+							$order->set_status( 'completed' );
+						}
+						$order->save();
 					}
-					$order->save();
+					return array(
+						'result'   => 'success',
+						'redirect' => $this->get_return_url( $order ),
+					);
 				}
-				return array(
-					'result'   => 'success',
-					'redirect' => $this->get_return_url( $order ),
-				);
-			}
 
-			$gopay_payment_method = filter_input( INPUT_POST, 'gopay_payment_method' );
-			$is_retry             = $this->payment_retry &&
-										is_page( wc_get_page_id( 'checkout' ) ) &&
-										! empty( get_query_var( 'order-pay' ) );
+				$gopay_payment_method = filter_input( INPUT_POST, 'gopay_payment_method' );
+				$is_retry             = $this->payment_retry &&
+											is_page( wc_get_page_id( 'checkout' ) ) &&
+											! empty( get_query_var( 'order-pay' ) );
 
-			$request_card_token = filter_input( INPUT_POST, 'request_card_token' ) ?? false;
-			$card_id = filter_input( INPUT_POST, 'saved_card' ) ?? '';
+				$request_card_token = filter_input( INPUT_POST, 'request_card_token' ) ?? false;
+				$card_id = filter_input( INPUT_POST, 'saved_card' ) ?? '';
 
-			// Add GoPay payment method to order.
-			if ( $gopay_payment_method ) {
-				if ( array_key_exists( $gopay_payment_method, Gopay_Gateway_Options::supported_banks() ) ) {
-					$order->update_meta_data( '_GoPay_bank_swift', $gopay_payment_method );
-					$order->update_meta_data( '_GoPay_payment_method', 'BANK_ACCOUNT' );
-				} else {
-					$order->update_meta_data( '_GoPay_payment_method', $gopay_payment_method );
+				// Add GoPay payment method to order.
+				if ( $gopay_payment_method ) {
+					if ( array_key_exists( $gopay_payment_method, Gopay_Gateway_Options::supported_banks() ) ) {
+						$order->update_meta_data( '_GoPay_bank_swift', $gopay_payment_method );
+						$order->update_meta_data( '_GoPay_payment_method', 'BANK_ACCOUNT' );
+					} else {
+						$order->update_meta_data( '_GoPay_payment_method', $gopay_payment_method );
+					}
 				}
-			}
 
-			// GoPay API only considers cents.
-			// Rounding total to 2 decimals.
-			$order->set_total( wc_format_decimal( $order->get_total(), 2 ) );
+				// GoPay API only considers cents.
+				// Rounding total to 2 decimals.
+				$order->set_total( wc_format_decimal( $order->get_total(), 2 ) );
 
-			// Try to get Payment method from $_POST or $_Request
-			if (isset($_POST['gopay_payment_method'])) {
-				$gopay_payment_method = sanitize_text_field($_POST['gopay_payment_method']);
-			} elseif (isset($_REQUEST['payment_data']) && isset($_REQUEST['payment_data']['gopay_payment_method'])) {
-				$gopay_payment_method = sanitize_text_field($_REQUEST['payment_data']['gopay_payment_method']);
-			}
+				// Try to get Payment method from $_POST or $_Request
+				if (isset($_POST['gopay_payment_method'])) {
+					$gopay_payment_method = sanitize_text_field($_POST['gopay_payment_method']);
+				} elseif (isset($_REQUEST['payment_data']) && isset($_REQUEST['payment_data']['gopay_payment_method'])) {
+					$gopay_payment_method = sanitize_text_field($_REQUEST['payment_data']['gopay_payment_method']);
+				}
 
-			if (isset($_POST['saved_card'])) {
-				$card_id = sanitize_text_field($_POST['saved_card']);
-			}
+				if (isset($_POST['saved_card'])) {
+					$card_id = sanitize_text_field($_POST['saved_card']);
+				}
 
-			if (isset($_POST['request_card_token'])) {
-				$request_card_token = sanitize_text_field($_POST['request_card_token']);
-			}
+				if (isset($_POST['request_card_token'])) {
+					$request_card_token = sanitize_text_field($_POST['request_card_token']);
+				}
 
-			$response = Gopay_Gateway_API::create_payment(
-				$gopay_payment_method,
-				$order,
-				! empty( $subscription ) ? ( $subscription->get_date( 'end' ) ?: gmdate( 'Y-m-d', strtotime( '+5 years' ) ) ) : '',
-				$is_retry,
-				$request_card_token,
-				$card_id
-			);
-
-			if ( 200 != $response->statusCode ) {
-				$log = array(
-					'order_id'       => $order_id,
-					'transaction_id' => 0,
-					'message'        => 'Process payment error',
-					'log_level'      => 'ERROR',
-					'log'            => $response,
+				$response = Gopay_Gateway_API::create_payment(
+					$gopay_payment_method,
+					$order,
+					! empty( $subscription ) ? ( $subscription->get_date( 'end' ) ?: gmdate( 'Y-m-d', strtotime( '+5 years' ) ) ) : '',
+					$is_retry,
+					$request_card_token,
+					$card_id
 				);
-				Gopay_Gateway_Log::insert_log( $log );
-				if ( ! wc_has_notice(
-					__(
-						'Payment creation on GoPay not possible',
-						'gopay-gateway'
-					),
-					'error'
-				) ) {
-					wc_add_notice(
+
+				if ( 200 != $response->statusCode ) {
+					$log = array(
+						'order_id'       => $order_id,
+						'transaction_id' => 0,
+						'message'        => 'Process payment error',
+						'log_level'      => 'ERROR',
+						'log'            => $response,
+					);
+					Gopay_Gateway_Log::insert_log( $log );
+					if ( ! wc_has_notice(
 						__(
 							'Payment creation on GoPay not possible',
 							'gopay-gateway'
 						),
 						'error'
+					) ) {
+						wc_add_notice(
+							__(
+								'Payment creation on GoPay not possible',
+								'gopay-gateway'
+							),
+							'error'
+						);
+					}
+
+					return array(
+						'result'   => 'failed',
+						'redirect' => wc_get_checkout_url(),
 					);
 				}
 
-				return array(
-					'result'   => 'failed',
-					'redirect' => wc_get_checkout_url(),
+				// Add GoPay transaction id to order.
+				// $order->set_status('on-hold'); !
+				$order->update_meta_data( 'GoPay_Transaction_id', $response->json['id'] );
+				$order->update_meta_data( '_GoPay_payment_created_at', time() );
+				$order->save();
+
+				// Save log.
+				$log = array(
+					'order_id'       => $order_id,
+					'transaction_id' => $response->json['id'],
+					'message'        => 'Payment created',
+					'log_level'      => 'INFO',
+					'log'            => $response,
 				);
+				Gopay_Gateway_Log::insert_log( $log );
+
+				$redirect_url = wc_get_checkout_url();
+				$url_args     = array( 'gopay_url' => $response->json['gw_url'] );
+				if ( ! empty( $_GET['pay_for_order'] ) && $_GET['pay_for_order'] == 'true' ) {
+					$url_args     = array_merge( $_GET, $url_args );
+					$redirect_url = wc_get_endpoint_url( 'order-pay' );
+					$redirect_url = $redirect_url . $order_id . '/';
+				}
+
+				return array(
+					'result'   => 'success',
+					'redirect' => htmlspecialchars_decode(
+						wp_nonce_url( add_query_arg( $url_args, $redirect_url ), 'gw_url' )
+					),
+				);
+			} finally {
+				if ( $lock_held ) {
+					$wpdb->get_var( $wpdb->prepare( 'SELECT RELEASE_LOCK(%s)', $lock_name ) );
+				}
 			}
-
-			// Add GoPay transaction id to order.
-			// $order->set_status('on-hold'); !
-			$order->update_meta_data( 'GoPay_Transaction_id', $response->json['id'] );
-			$order->save();
-
-			// Save log.
-			$log = array(
-				'order_id'       => $order_id,
-				'transaction_id' => $response->json['id'],
-				'message'        => 'Payment created',
-				'log_level'      => 'INFO',
-				'log'            => $response,
-			);
-			Gopay_Gateway_Log::insert_log( $log );
-
-			$redirect_url = wc_get_checkout_url();
-			$url_args     = array( 'gopay_url' => $response->json['gw_url'] );
-			if ( ! empty( $_GET['pay_for_order'] ) && $_GET['pay_for_order'] == 'true' ) {
-				$url_args     = array_merge( $_GET, $url_args );
-				$redirect_url = wc_get_endpoint_url( 'order-pay' );
-				$redirect_url = $redirect_url . $order_id . '/';
-			}
-
-			return array(
-				'result'   => 'success',
-				'redirect' => htmlspecialchars_decode(
-					wp_nonce_url( add_query_arg( $url_args, $redirect_url ), 'gw_url' )
-				),
-			);
 		}
 
 		/**
