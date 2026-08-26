@@ -10,7 +10,7 @@
  * Plugin Name:          GoPay gateway
  * Plugin URI:           https://github.com/argo22packages/gopay-woocommerce-integration
  * Description:          WooCommerce and GoPay payment gateway integration
- * Version:              1.0.33
+ * Version:              1.0.35
  * Author:               GoPay
  * Author URI:           https://www.gopay.com/
  * Text Domain:          gopay-gateway
@@ -32,7 +32,7 @@ if (!defined('WPINC')) {
  * Plugin version.
  * Rename this and update it as you release new versions.
  */
-define( 'GOPAY_WOOCOMMERCE_VERSION', '1.0.33' );
+define( 'GOPAY_WOOCOMMERCE_VERSION', '1.0.35' );
 
 /**
  * Constants.
@@ -172,7 +172,7 @@ function gopay_handle_review_dismiss() {
 		$data['reviewed'] = true;
 		update_option( 'gopay_review_dismiss', $data );
 
-		wp_redirect( 'https://wordpress.org/support/plugin/gopay-gateway/reviews/?filter=5#new-post' );
+		wp_redirect( 'https://wordpress.org/support/plugin/gopay-gateway/reviews/#new-post' );
 		exit;
 	}
 }
